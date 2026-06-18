@@ -99,8 +99,8 @@ const Navbar = () => {
           <Link href="/" className="flex items-center justify-center gap-1.5 md:gap-2">
             {/* <Image src="/sedan.png" alt="DriveFleet Logo" height={35} width={35} className="md:hidden" priority />
             <Image src="/sedan.png" alt="DriveFleet Logo" height={50} width={50} className="hidden md:block" priority /> */}
-            <span className="text-lg md:text-xl font-extrabold uppercase tracking-wider bg-gradient-to-r from-zinc-950 via-sky-500 to-cyan-600 !bg-clip-text !text-transparent">
-              DriveFleet
+            <span className="text-lg md:text-3xl   text-[#c2271d] font-bold ">
+              RecipeHub
             </span>
           </Link>
         </div>
@@ -109,12 +109,12 @@ const Navbar = () => {
         <div className="hidden lg:flex items-center">
           <ul className="flex items-center gap-8 font-medium text-lg">
             <li>
-              <Link href="/" className={pathname === "/" ? "text-sky-500 font-bold" : "text-black hover:text-sky-500"}>
-                Home
-              </Link>
+             <Link href="/" className={pathname === "/" ? "text-gray-800 font-bold text-lg" : "text-gray-600 text-lg hover:text-gray-900 transition-colors"}>
+               Home
+               </Link>
             </li>
             <li>
-              <Link href="/BrowseEvents" className={pathname === "/BrowseEvents" ? "text-sky-500 font-bold" : "text-black hover:text-sky-500"}>
+              <Link href="/BrowseEvents" className={pathname === "/BrowseEvents" ? "text-gray-800 font-bold text-lg" : "text-gray-600 text-lg hover:text-gray-900 transition-colors"}>
                 Browse Events
               </Link>
             </li>
@@ -145,9 +145,21 @@ const Navbar = () => {
             <>
              
               <div className="hidden lg:flex items-center gap-3">
-                <Button onPress={() => router.push("/auth/LogIn")} className={`font-semibold rounded-xl text-lg border-2 transition-all duration-200 ${pathname === "/LogIn" ? "bg-blue-500 text-white border-blue-200 px-4 py-1" : "bg-white text-blue-500 border-blue-200 px-4 py-1 hover:bg-blue-50/50"}`}>Login</Button>
-                <Button onPress={() => router.push("/auth/RegisterPage")} className={`font-semibold text-lg rounded-xl border-2 transition-all duration-200 ${pathname === "/RegisterPage" ? "bg-blue-500 text-white border-blue-200 px-4 py-1" : "bg-slate-50/50 text-blue-500 border-blue-200 px-4 py-1 hover:bg-blue-50/50"}`}>Register</Button>
-              </div>
+                <Button  onPress={() => router.push("/auth/LogIn")} className={`font-semibold rounded-full text-lg border-2 transition-all duration-200 px-6 py-2 ${ pathname === "/auth/LogIn" 
+      ? "bg-[#c2271d] text-white border-[#c2271d]" 
+      : "bg-white text-[#c2271d] border-[#c2271d] hover:bg-red-50" }`}>Login
+          </Button>
+
+<Button 
+  onPress={() => router.push("/auth/RegisterPage")} 
+  className={`font-semibold text-lg rounded-full border-2 transition-all duration-200 px-6 py-2 ${
+    pathname === "/auth/RegisterPage" 
+      ? "bg-[#c2271d] text-white border-[#c2271d]" 
+      : "bg-[#c2271d] text-white border-[#c2271d] hover:bg-[#a31f18] hover:border-[#a31f18]"
+  }`}
+>
+  Register
+</Button>  </div>
 
              
               <button onClick={() => setIsDrawerOpen(true)} className="p-1.5 text-slate-800 lg:hidden focus:outline-none">
@@ -156,7 +168,7 @@ const Navbar = () => {
             </>
           ) : (
             <div className="flex text-base items-center gap-2 md:gap-3">
-              <h2 className="hidden text-lg font-bold md:block  text-gray-700 ">{user?.name ? user.name.split(' ')[0].toUpperCase() : ''}</h2>
+              <h2 className="hidden text-lg font-bold md:block  text-yellow-800 ">{user?.name ? user.name.split(' ')[0].toUpperCase() : ''}</h2>
               
               <div className="relative">
               
@@ -215,10 +227,10 @@ const Navbar = () => {
             
             <div className="flex justify-between items-center pb-6 border-b border-gray-100">
               <div className="flex items-center gap-2">
-                {/* <Image src="/sedan.png" alt="DriveFleet Logo" height={50} width={50} priority /> */}
-                <span className="text-2xl font-extrabold uppercase tracking-wider bg-gradient-to-r from-zinc-950 via-sky-500 to-cyan-600 !bg-clip-text !text-transparent">
-                  DriveFleet
-                </span>
+                <Image src="/user.png" alt="RecipeHub Logo" height={50} width={50} priority />
+                <span className="text-3xl  text-[#c2271d] font-bold ">
+              RecipeHub
+            </span>
               </div>
               <button onClick={() => setIsDrawerOpen(false)} className="p-1 text-slate-500 hover:bg-gray-100 rounded-lg focus:outline-none">
                 <X size={26} />
@@ -228,22 +240,22 @@ const Navbar = () => {
           
             <div className="flex-1 flex flex-col mt-8 justify-between">
               <div className="flex flex-col gap-3.5">
-                <Link href="/" className={`flex items-center gap-4 px-5 py-4 text-lg font-bold rounded-2xl border-l-4 transition-all duration-150 ${pathname === "/" ? "bg-blue-50 text-slate-900 border-cyan-400" : "text-slate-600 border-transparent hover:bg-gray-50/70"}`}>
-                  <Home size={22} className={pathname === "/" ? "text-slate-900" : "text-slate-500"} />
+                <Link href="/" className={`flex items-center gap-4 px-5 py-4 text-lg font-bold rounded-2xl border-l-4 transition-all duration-150 ${pathname === "/" ? "bg-red-100 text-slate-900 border-orange-400" : "text-slate-600 border-transparent hover:bg-red-50/70"}`}>
+                  <Home size={22} className={pathname === "/" ? "text-slate-800" : "text-slate-600"} />
                   Home
                 </Link>
                 
-                <Link href="/BrowseEvent" className={`flex items-center gap-4 px-5 py-4 text-lg font-bold rounded-2xl border-l-4 transition-all duration-150 ${pathname === "/BrowseEvent" ? "bg-blue-50 text-slate-900 border-cyan-400" : "text-slate-600 border-transparent hover:bg-gray-50/70"}`}>
-                  <Car size={22} className={pathname === "/BrowseEvent" ? "text-slate-900" : "text-slate-500"} />
+                <Link href="/BrowseEvent" className={`flex items-center gap-4 px-5 py-4 text-lg font-bold rounded-2xl border-l-4 transition-all duration-150 ${pathname === "/BrowseEvent" ? "bg-red-100 text-slate-900 border-orange-400" : "text-slate-600 border-transparent hover:bg-red-50/70"}`}>
+                  <Car size={22} className={pathname === "/BrowseEvent" ? "text-slate-800" : "text-slate-600"} />
                   Browse Event
                 </Link>
 
-                <Link href="/AddCarForm" onClick={(e) => handleProtectedNavigation(e, "/AddCarForm")} className={`flex items-center gap-4 px-5 py-4 text-lg font-bold rounded-2xl border-l-4 transition-all duration-150 ${pathname === "/AddCarForm" ? "bg-blue-50 text-slate-900 border-cyan-400" : "text-slate-600 border-transparent hover:bg-gray-50/70"}`}>
+                <Link href="/AddCarForm" onClick={(e) => handleProtectedNavigation(e, "/AddCarForm")} className={`flex items-center gap-4 px-5 py-4 text-lg font-bold rounded-2xl border-l-4 transition-all duration-150 ${pathname === "/AddCarForm" ? "bg-red-100 text-slate-900 border-orange-400" : "text-slate-600 border-transparent hover:bg-red-50/70"}`}>
                   <LayoutDashboard size={22} className={pathname === "/AddCarForm" ? "text-slate-900" : "text-slate-500"} />
                   My Dashboard
                 </Link>
 
-                <Link href="/ProfileSettings" onClick={(e) => handleProtectedNavigation(e, "/ProfileSettings")} className={`flex items-center gap-4 px-5 py-4 text-lg font-bold rounded-2xl border-l-4 transition-all duration-150  ${pathname === "/MyBookings" ? "bg-blue-50 text-slate-900 border-cyan-400" : "text-slate-600 border-transparent hover:bg-gray-50/70"}`}>
+                <Link href="/ProfileSettings" onClick={(e) => handleProtectedNavigation(e, "/ProfileSettings")} className={`flex items-center gap-4 px-5 py-4 text-lg font-bold rounded-2xl border-l-4 transition-all duration-150  ${pathname === "/MyBookings" ? "bg-red-100 text-slate-900 border-orange-400" : "text-slate-600 border-transparent hover:bg-red-50/70"}`}>
                         <CircleUserRound size={22} className={pathname === "/ProfileSettings" ? "text-slate-900" : "text-slate-500"}  />
                         Profile Settings
                       </Link>
@@ -263,17 +275,17 @@ const Navbar = () => {
                 {session ? (
                   <button 
                     onClick={handleLogOut} 
-                    className="w-full flex items-center justify-center gap-3 py-3.5 text-center font-bold text-red-500 bg-red-50 hover:bg-red-100 rounded-2xl transition-colors text-[17px]"
+                    className="w-full flex items-center justify-center gap-3 py-3.5 text-center font-bold text-red-50 bg-red-500 hover:bg-red-600 rounded-2xl transition-colors text-[17px]"
                   >
-                    <LogOut size={22} className="text-red-500" />
+                    <LogOut size={22} className="text-red-50" />
                     Logout
                   </button>
                 ) : (
                   <div className="flex flex-col gap-3">
-                    <button onClick={() => router.push("/auth/LogIn")} className="w-full py-3.5 text-center font-bold text-blue-600 border-2 border-blue-500 rounded-2xl hover:bg-blue-50/50 transition-colors text-[17px]">
+                    <button onClick={() => router.push("/auth/LogIn")} className="w-full py-3.5 text-center font-bold text-[#c2271d] border-2 border-[#c2271d] rounded-2xl hover:bg-red-50/50 transition-colors text-[17px]">
                       Login
                     </button>
-                    <button onClick={() => router.push("/auth/RegisterPage")} className="w-full py-3.5 text-center font-bold text-white bg-blue-600 rounded-2xl hover:bg-blue-700 shadow-md transition-colors text-[17px]">
+                    <button onClick={() => router.push("/auth/RegisterPage")} className="w-full py-3.5 text-center font-bold text-white bg-[#c2271d] rounded-2xl hover:bg-[#a31f18] shadow-md transition-colors text-[17px]">
                       Register
                     </button>
                   </div>

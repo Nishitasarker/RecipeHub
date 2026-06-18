@@ -72,7 +72,7 @@ const RegisterPage = () => {
         email,
         password,
        data: {
-              role: role, // ✅ এখানে
+              role: role, 
                 },
         autoSignIn: false, 
       }, {
@@ -259,7 +259,7 @@ const RegisterPage = () => {
           <div className="pt-2 text-base font-bold">
             <button 
               className={`w-full py-3 px-4 rounded-xl font-semibold text-sm text-center text-white transition-all duration-150 active:scale-[0.99] shadow-sm ${
-                loading ? "bg-blue-400 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700"
+                loading ? "bg-orange-400 cursor-not-allowed" : "bg-orange-600 hover:bg-orange-700"
               }`} 
               type="submit"
               disabled={loading}
@@ -272,7 +272,7 @@ const RegisterPage = () => {
           <div className="text-center font-medium text-sm text-gray-600 pt-2">
             <p>
               Already have an account?{" "}
-              <Link href="/auth/LogIn" className="text-red-500 hover:underline font-medium cursor-pointer">
+              <Link href="/auth/LogIn" className="text-red-500 hover:underline font-bold cursor-pointer">
                 Log in here
               </Link>
             </p>
@@ -288,7 +288,7 @@ const RegisterPage = () => {
           {/* Google Login Button */}
           <button
             type="button" 
-            className="w-full py-3 px-4 flex items-center justify-center gap-2 rounded-xl font-semibold text-sm text-blue-700 bg-white border-2 border-blue-200 hover:bg-gray-50 transition-all duration-150 active:scale-[0.99]" 
+            className="w-full py-3 px-4 flex items-center justify-center gap-2 rounded-xl font-semibold text-sm text-orange-700 bg-white border-2 border-orange-200 hover:bg-orange-50 transition-all duration-150 active:scale-[0.99]" 
             onClick={handleGoogleLogin}
           >
             <svg aria-label="Google logo" width="18" height="18" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
