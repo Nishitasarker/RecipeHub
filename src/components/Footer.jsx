@@ -1,102 +1,132 @@
+"use client";
+
 import Link from "next/link";
-import { 
-  LogoFacebook, 
-  LogoLinkedin, 
-  LogoInstagram, 
-  LogoGithub 
-} from "@gravity-ui/icons";
+import { motion } from "framer-motion";
+import { LuChefHat } from "react-icons/lu"; 
+import { FaFacebook, FaLinkedin, FaInstagram, FaGithub } from "react-icons/fa6"; 
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
 
+  const containerVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        staggerChildren: 0.1,
+        duration: 0.6,
+        ease: "easeOut"
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 10 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.4 } }
+  };
+
   return (
-    <footer className="w-full bg-[#030712] text-gray-400 border-t border-gray-900/50">
-      <div className="mx-auto max-w-7xl px-6 py-12 md:py-16">
+    <footer className="w-full bg-[#030712] text-gray-400 border-t pl-12 border-gray-900/50">
+      <motion.div 
+        className="mx-auto max-w-7xl px-6 py-12 md:py-16"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-100px" }}
+        variants={containerVariants}
+      >
         
-        {/* Main Columns Layout */}
-        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-4">
+        {/* 📱 Mobile: 2 Columns | 💻 Desktop: 4 Columns */}
+        <div className="grid grid-cols-2 gap-8 md:grid-cols-4 text-left">
           
-          {/* Column 1: Brand Info & Gravity Socials */}
-          <div className="flex flex-col gap-4">
-            <Link href="/" className="flex items-center gap-2">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-tr from-purple-500 to-pink-500 text-white text-xs">
-                🎟️
-              </div>
-              <span className="text-xl font-bold text-white tracking-tight">
-                Tick<span className="text-pink-500">eto</span>
+          {/* Column 1: Brand Info & Socials (Desktop e prothome dynamically thakbe, phone e shobar last e jabe) */}
+          <motion.div 
+            variants={itemVariants} 
+            className="flex flex-col items-center md:items-start text-center md:text-left gap-4 col-span-2 md:col-span-1 order-last md:order-first pt-8 md:pt-0 mt-4 md:mt-0 border-t border-gray-900/40 md:border-t-0"
+          >
+            {/* Logo */}
+            <Link href="/" className="flex items-center gap-2 group">
+              <span className="text-2xl md:text-4xl text-[#e65c00] transition-transform duration-300 group-hover:rotate-12">
+                <LuChefHat size="1em" />
+              </span>
+              <span className="text-lg md:text-2xl text-[#c2271d] font-bold tracking-tight">
+                RecipeHub
               </span>
             </Link>
-            <p className="text-sm leading-relaxed text-gray-400 max-w-xs">
-              The next-generation event discovery and seamless ticket booking platform 
-              connecting passionate organizers with eager attendees.
+
+            <p className="text-xs md:text-sm leading-relaxed text-gray-400 max-w-sm">
+              Explore thousands of delicious recipes, share your creations, and connect with a passionate community of food lovers and home chefs.
             </p>
             
-            {/* Gravity UI Social Icons Link Wrapper */}
-            <div className="flex items-center gap-4 mt-2 text-gray-400">
-              <a href="#" className="hover:text-white transition-colors" aria-label="Facebook">
-                <LogoFacebook width={20} height={20} />
-              </a>
-              <a href="#" className="hover:text-white transition-colors" aria-label="X (Twitter)">
-                <LogoLinkedin width={20} height={20} />
-              </a>
-              {/* <a href="#" className="hover:text-white transition-colors" aria-label="Instagram">
-                <LogoInstagram width={20} height={20} />
-              </a> */}
-              <a href="#" className="hover:text-white transition-colors" aria-label="GitHub">
-                <LogoGithub width={20} height={20} />
-              </a>
+            {/* Social Icons */}
+            <div className="flex items-center justify-center md:justify-start gap-6 mt-1 text-gray-400">
+              <motion.a whileHover={{ scale: 1.1, color: "#fff" }} href="#" className="transition-colors" aria-label="Facebook">
+                <FaFacebook size={22} />
+              </motion.a>
+              <motion.a whileHover={{ scale: 1.1, color: "#fff" }} href="#" className="transition-colors" aria-label="LinkedIn">
+                <FaLinkedin size={22} />
+              </motion.a>
+              <motion.a whileHover={{ scale: 1.1, color: "#fff" }} href="#" className="transition-colors" aria-label="Instagram">
+                <FaInstagram size={22} />
+              </motion.a>
+              <motion.a whileHover={{ scale: 1.1, color: "#fff" }} href="#" className="transition-colors" aria-label="GitHub">
+                <FaGithub size={22} />
+              </motion.a>
             </div>
-          </div>
+          </motion.div>
 
-          {/* Column 2: Discover Events */}
-          <div>
+          {/* Column 2: Explore Recipes */}
+          <motion.div variants={itemVariants} className="order-1">
             <h3 className="text-xs font-bold uppercase tracking-wider text-white mb-4">
-              Discover Events
+              Explore Recipes
             </h3>
             <ul className="flex flex-col gap-2.5 text-sm">
-              <li><Link href="/events/music" className="hover:text-white transition-colors">Music Festivals</Link></li>
-              <li><Link href="/events/tech" className="hover:text-white transition-colors">Tech Conferences</Link></li>
-              <li><Link href="/events/sports" className="hover:text-white transition-colors">Sports Matches</Link></li>
-              <li><Link href="/events/art" className="hover:text-white transition-colors">Art Exhibitions</Link></li>
+              <li><Link href="/recipes/breakfast" className="hover:text-white transition-colors block py-0.5">Breakfast & Brunch</Link></li>
+              <li><Link href="/recipes/healthy" className="hover:text-white transition-colors block py-0.5">Healthy & Vegan</Link></li>
+              <li><Link href="/recipes/desserts" className="hover:text-white transition-colors block py-0.5">Desserts & Baking</Link></li>
+              <li><Link href="/recipes/quick-meals" className="hover:text-white transition-colors block py-0.5">30-Minute Meals</Link></li>
             </ul>
-          </div>
+          </motion.div>
 
-          {/* Column 3: For Organizers */}
-          <div>
+          {/* Column 3: For Creators */}
+          <motion.div variants={itemVariants} className="order-2">
             <h3 className="text-xs font-bold uppercase tracking-wider text-white mb-4">
-              For Organizers
+              For Creators
             </h3>
             <ul className="flex flex-col gap-2.5 text-sm">
-              <li><Link href="/organizers/create" className="hover:text-white transition-colors">Create Organization</Link></li>
-              <li><Link href="/organizers/host" className="hover:text-white transition-colors">Host an Event</Link></li>
-              <li><Link href="/organizers/packages" className="hover:text-white transition-colors">Premium Packages</Link></li>
-              <li><Link href="/organizers/pricing" className="hover:text-white transition-colors">Pricing & Fees</Link></li>
+              <li><Link href="/recipe/submit" className="hover:text-white transition-colors block py-0.5">Submit a Recipe</Link></li>
+              <li><Link href="/chef/dashboard" className="hover:text-white transition-colors block py-0.5">Chef Dashboard</Link></li>
+              <li><Link href="/community/challenges" className="hover:text-white transition-colors block py-0.5">Cooking Challenges</Link></li>
+              <li><Link href="/guidelines" className="hover:text-white transition-colors block py-0.5">Content Guidelines</Link></li>
             </ul>
-          </div>
+          </motion.div>
 
           {/* Column 4: Company */}
-          <div>
+          <motion.div variants={itemVariants} className="order-3 col-span-2 sm:col-span-1 md:col-span-1 mt-4 sm:mt-0">
             <h3 className="text-xs font-bold uppercase tracking-wider text-white mb-4">
               Company
             </h3>
-            <ul className="flex flex-col gap-2.5 text-sm">
-              <li><Link href="/about" className="hover:text-white transition-colors">About Us</Link></li>
-              <li><Link href="/careers" className="hover:text-white transition-colors">Careers</Link></li>
-              <li><Link href="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link></li>
-              <li><Link href="/terms" className="hover:text-white transition-colors">Terms of Service</Link></li>
+            <ul className="grid grid-cols-2 gap-2.5 sm:flex sm:flex-col text-sm">
+              <li><Link href="/about" className="hover:text-white transition-colors block py-0.5">About Our Journey</Link></li>
+              <li><Link href="/blog" className="hover:text-white transition-colors block py-0.5">Culinary Blog</Link></li>
+              <li><Link href="/privacy" className="hover:text-white transition-colors block py-0.5">Privacy Policy</Link></li>
+              <li><Link href="/terms" className="hover:text-white transition-colors block py-0.5">Terms of Service</Link></li>
             </ul>
-          </div>
+          </motion.div>
 
         </div>
 
         {/* Bottom Copyright Section */}
-        <div className="mt-12 border-t border-gray-900/60 pt-8 text-center text-xs text-gray-500">
+        <motion.div 
+          variants={itemVariants}
+          className="mt-12 border-t border-gray-500 pt-8 text-center text-xs text-gray-500"
+        >
           <p>
-            &copy; {currentYear} Ticketo Inc. All rights reserved. Developed by Antigravity AI.
+            &copy; {currentYear} RecipeHub Inc. All rights reserved. Crafting flavors with love.
           </p>
-        </div>
+        </motion.div>
 
-      </div>
+      </motion.div>
     </footer>
   );
 }

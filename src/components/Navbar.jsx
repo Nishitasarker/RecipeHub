@@ -7,6 +7,8 @@ import { usePathname, useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
 import { toast, ToastContainer } from "react-toastify"; 
 import "react-toastify/dist/ReactToastify.css";
+import { ChefHat } from 'lucide-react';
+
 
 import { LayoutDashboard, CircleUserRound, LayoutGrid, LogOut, Menu, X, Home, Car } from "lucide-react";
 
@@ -99,6 +101,8 @@ const Navbar = () => {
           <Link href="/" className="flex items-center justify-center gap-1.5 md:gap-2">
             {/* <Image src="/sedan.png" alt="DriveFleet Logo" height={35} width={35} className="md:hidden" priority />
             <Image src="/sedan.png" alt="DriveFleet Logo" height={50} width={50} className="hidden md:block" priority /> */}
+           <span className="text-2xl md:text-5xl text-[#e65c00]">
+              <ChefHat size="1em" /></span>
             <span className="text-lg md:text-3xl   text-[#c2271d] font-bold ">
               RecipeHub
             </span>
@@ -115,7 +119,7 @@ const Navbar = () => {
             </li>
             <li>
               <Link href="/BrowseEvents" className={pathname === "/BrowseEvents" ? "text-gray-800 font-bold text-lg" : "text-gray-600 text-lg hover:text-gray-900 transition-colors"}>
-                Browse Events
+                Browse Recipes
               </Link>
             </li>
             <li>
@@ -189,20 +193,20 @@ const Navbar = () => {
                     </div>
                     
                     <div className="flex flex-col gap-1.5">
-                      <Link href="/Dashboard" className={`flex items-center gap-3 px-4 py-3 text-[17px] font-semibold rounded-2xl transition-all duration-200 ${pathname === "/Dashboard" ? "bg-blue-50 text-blue-600" : "text-slate-700 hover:bg-gray-50"}`}>
-                        <LayoutDashboard size={22} className={pathname === "/AddCarForm" ? "text-blue-600" : "text-blue-500"} />
+                      <Link href="/Dashboard" className={`flex items-center gap-3 px-4 py-3 text-[17px] font-semibold rounded-2xl transition-all duration-200 ${pathname === "/Dashboard" ? "bg-orange-50 text-orange-600" : "text-slate-700 hover:bg-red-50"}`}>
+                        <LayoutDashboard size={22} className={pathname === "/AddCarForm" ? "text-orange-600" : "text-orange-500"} />
                         My Dashboard
                       </Link>
-                      <Link href="/MyBookings" className={`flex items-center gap-3 px-4 py-3 text-[17px] font-semibold rounded-2xl transition-all duration-200 ${pathname === "/MyBookings" ? "bg-blue-50 text-blue-600" : "text-slate-700 hover:bg-gray-50"}`}>
-                        <CircleUserRound size={22} className={pathname === "/MyBookings" ? "text-blue-600" : "text-blue-500"} />
+                      <Link href="/MyBookings" className={`flex items-center gap-3 px-4 py-3 text-[17px] font-semibold rounded-2xl transition-all duration-200 ${pathname === "/MyBookings" ? "bg-orange-50 text-orange-600" : "text-slate-700 hover:bg-red-50"}`}>
+                        <CircleUserRound size={22} className={pathname === "/MyBookings" ? "text-orange-600" : "text-orange-500"} />
                         Profile Settings
                       </Link>
                       {/* <Link href="/MyAddedCars" className={`flex items-center gap-3 px-4 py-3 text-[17px] font-semibold rounded-2xl transition-all duration-200 ${pathname === "/MyAddedCars" ? "bg-blue-50 text-blue-600" : "text-slate-700 hover:bg-gray-50"}`}>
                         <LayoutGrid size={22} className={pathname === "/MyAddedCars" ? "text-blue-600" : "text-blue-500"} />
                         My Added Cars
                       </Link> */}
-                      <button onClick={handleLogOut} className="w-full flex items-center gap-3 px-4 py-3 text-[17px] font-semibold rounded-2xl text-red-500 hover:bg-red-50/70 transition-all duration-200 mt-1">
-                        <LogOut size={22} className="text-red-500" />
+                      <button onClick={handleLogOut} className="w-full flex items-center gap-3 px-4 py-3 text-[17px] font-bold rounded-2xl text-red-500 hover:bg-red-50/70 transition-all duration-200 mt-1">
+                        <LogOut size={22} className="text-red-500 font-bold" />
                         Logout
                       </button>
                     </div>
@@ -227,8 +231,8 @@ const Navbar = () => {
             
             <div className="flex justify-between items-center pb-6 border-b border-gray-100">
               <div className="flex items-center gap-2">
-                <Image src="/user.png" alt="RecipeHub Logo" height={50} width={50} priority />
-                <span className="text-3xl  text-[#c2271d] font-bold ">
+               <ChefHat size={48} className="text-[#e65c00]" />                
+               <span className="text-3xl  text-[#c2271d] font-bold ">
               RecipeHub
             </span>
               </div>
