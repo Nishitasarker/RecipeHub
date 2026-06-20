@@ -10,13 +10,20 @@ export const auth = betterAuth({
     enabled: true,
   },
   database: mongodbAdapter(db, { client }),
-  // user: {
-  //   additionalFields: {
-  //     role: {
-  //       type: "string",
-  //       defaultValue: "Attendee", // ✅ default থেকে defaultValue
-  //       input: true,
-  //     }
-  //   }
-  // }
+  user: {
+    additionalFields: {
+      role: {
+        type: "string",        // টাইপ অবশ্যই বলে দিতে হবে
+        defaultValue: "user"   // রিকোয়ারমেন্ট অনুযায়ী ছোট হাতের "user"
+      }, 
+      isPremium: {             // plan-এর জায়গায় রিকোয়ারমেন্ট অনুযায়ী isPremium
+        type: "boolean",
+        defaultValue: false    // ডিফল্টভাবে সে প্রিমিয়াম নয় (false)
+      },
+      isBlocked: {             // অ্যাডমিন প্যানেলের জন্য এটিও অ্যাড করে রাখা ভালো
+        type: "boolean",
+        defaultValue: false
+      }
+    }
+  }
 });
