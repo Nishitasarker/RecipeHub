@@ -4,8 +4,15 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { LuChefHat } from "react-icons/lu"; 
 import { FaFacebook, FaLinkedin, FaInstagram, FaGithub } from "react-icons/fa6"; 
+import { usePathname } from "next/navigation";
 
 export default function Footer() {
+
+  const pathname = usePathname();
+  
+    if(pathname.includes('dashboard')){
+      return null;
+    }
   const currentYear = new Date().getFullYear();
 
   const containerVariants = {
@@ -119,7 +126,7 @@ export default function Footer() {
         {/* Bottom Copyright Section */}
         <motion.div 
           variants={itemVariants}
-          className="mt-12 border-t border-gray-500 pt-8 text-center text-xs text-gray-500"
+          className="mt-12 border-t border-gray-500z pt-8 text-center text-xs text-gray-500"
         >
           <p>
             &copy; {currentYear} RecipeHub Inc. All rights reserved. Crafting flavors with love.
