@@ -9,21 +9,29 @@ export const auth = betterAuth({
   emailAndPassword: {
     enabled: true,
   },
-  database: mongodbAdapter(db, { client }),
+
+  // 🎯 ভুল/অকার্যকর "model" ব্লক রিমুভ করা হলো — actual collection নাম default singular "user" ই থাকছে (ছবিতে কনফার্ম করা)
+  database: mongodbAdapter(db, {
+    client,
+  }),
+
   user: {
     additionalFields: {
       role: {
-        type: "string",        // টাইপ অবশ্যই বলে দিতে হবে
-        defaultValue: "user"   // রিকোয়ারমেন্ট অনুযায়ী ছোট হাতের "user"
-      }, 
-      isPremium: {             // plan-এর জায়গায় রিকোয়ারমেন্ট অনুযায়ী isPremium
-        type: "boolean",
-        defaultValue: false    // ডিফল্টভাবে সে প্রিমিয়াম নয় (false)
+        type: "string",
+        defaultValue: "user",
+        input: false, // 🎯 যুক্ত করা হলো — ইউজার নিজে এটা পরিবর্তন করতে পারবে না
       },
-      isBlocked: {             // অ্যাডমিন প্যানেলের জন্য এটিও অ্যাড করে রাখা ভালো
+      isPremium: {
         type: "boolean",
-        defaultValue: false
-      }
-    }
-  }
+        defaultValue: false,
+        input: false, // 🎯 যুক্ত করা হলো — শুধু server-side কোড (Stripe confirm route) এটা সেট করতে পারবে
+      },
+      isBlocked: {
+        type: "boolean",
+        defaultValue: false,
+        input: false, // 🎯 যুক্ত করা হলো
+      },
+    },
+  },
 });

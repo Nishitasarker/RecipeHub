@@ -1,19 +1,26 @@
-import { auth } from "@/lib/auth"; // আপনার প্রজেক্টের Better Auth কনফিগ ফাইলের পাথ দিন
+import { auth } from "@/lib/auth"; 
 import { headers } from "next/headers";
 import { DashboardSidebar } from "@/components/dashboard/DashboardSidebar";
+import { redirect } from "next/navigation";
 
 export default async function DashboardLayout({ children }) {
-  // Better Auth এর মাধ্যমে সার্ভার সাইডে সেশন এবং ইউজার ডাটা ফেচ করা হচ্ছে
   const session = await auth.api.getSession({
     headers: await headers(),
   });
   
   const user = session?.user; 
-  const currentUserRole = user?.role || "user"; // ডাটাবেজ থেকে আসা 'admin' বা 'user' ডাইনামিকালি সেট হবে
+
+  // ইউজার যদি লগইন করা না থাকে, তাহলে প্রটেকশনের জন্য লগইন পেজে রিডাইরেক্ট করবে
+  if (!user) {
+    redirect("/auth/LogIn");
+  }
+
+  // ডাটাবেজ থেকে আসা 'user' বা 'admin' রোল এখানে স্টোর হবে
+  const currentUserRole = user?.role || "user"; 
 
   return (
     <div className="flex h-screen w-full overflow-hidden bg-background">
-      {/* ডাইনামিক রোল পাস করা হলো */}
+      {/* সাইডবারে ইউজারের রোল পাস করা হলো */}
       <DashboardSidebar userRole={currentUserRole} />
 
       <div className="flex flex-1 flex-col overflow-hidden">
@@ -23,11 +30,11 @@ export default async function DashboardLayout({ children }) {
               {currentUserRole} Panel
             </h1>
           </div>
-          {/* <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3">
             <span className="text-sm font-medium text-muted-foreground">
-              {user?.email || "No Email Found"}
+              {user?.name || user?.email}
             </span>
-          </div> */}
+          </div>
         </header>
 
         <main className="flex-1 overflow-y-auto p-6 bg-default-50/50">

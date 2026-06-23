@@ -7,10 +7,9 @@ import { usePathname, useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
 import { toast, ToastContainer } from "react-toastify"; 
 import "react-toastify/dist/ReactToastify.css";
-import { ChefHat, LayoutDashboard, CircleUserRound, LogOut, Menu, X, Home, Car } from 'lucide-react';
+import { ChefHat, LayoutDashboard, CircleUserRound, LogOut, Menu, X, Home } from 'lucide-react';
 
 const Navbar = () => {
-  // 1. সমস্ত হুক সবসময় কম্পোনেন্টের শুরুতে (Top Level) রাখতে হবে 👑
   const { data: session } = authClient.useSession();
   const user = session?.user;
   const pathname = usePathname();
@@ -23,7 +22,6 @@ const Navbar = () => {
   
   const dropdownRef = useRef(null);
 
-  // 2. সমস্ত ইফেক্টস এবং ইভেন্ট লিসেনার
   useEffect(() => {
     setMounted(true);
 
@@ -55,7 +53,6 @@ const Navbar = () => {
     setIsDrawerOpen(false);
   }, [pathname]);
 
-  // 3. হ্যান্ডলার ফাংশনসমূহ
   const handleLogOut = async () => {
     try {
       await authClient.signOut();
@@ -78,15 +75,17 @@ const Navbar = () => {
     }
   };
 
-  // 4. হাইড্রেশন এরর এড়াতে মাউন্টেড চেক
   if (!mounted) {
     return <div className="w-full bg-base-100 h-16 md:h-20 border-b border-gray-100 sticky top-0 z-50"></div>;
   }
 
-  // 5. 💡 ম্যাজিক লাইন: ড্যাশবোর্ড পেজগুলোতে নেভবার হাইড করার সঠিক কন্ডিশন (সব হুকের পরে)
   if (pathname.toLowerCase().includes('dashboard')) {
     return null;
   }
+
+  // 💡 ম্যজিক লজিক: ডাটাবেজের 'user' রোলকে 'organizer' ফোল্ডার পাথে ম্যাপ করা হলো
+  const userRole = user?.role?.toLowerCase();
+  const dashboardPath = userRole === "admin" ? "/dashboard/admin" : "/dashboard/user";
 
   return (
     <>
@@ -122,9 +121,9 @@ const Navbar = () => {
             </li>
             <li>
               <Link 
-                href="/Dashboard" 
-                onClick={(e) => handleProtectedNavigation(e, "/Dashboard")}
-                className={pathname.toLowerCase().includes("/dashboard") ? "text-[#c2271d] font-bold" : "text-black hover:text-[#c2271d]"}
+                href={dashboardPath} 
+                onClick={(e) => handleProtectedNavigation(e, dashboardPath)}
+                className={pathname.toLowerCase().includes("/dashboard") ? "text-[#c2271d] font-bold text-lg" : "text-gray-600 text-lg hover:text-gray-900 transition-colors"}
               >
                 Dashboard
               </Link>
@@ -165,7 +164,7 @@ const Navbar = () => {
                       <p className="text-sm text-gray-400 mt-1 truncate">{user?.email}</p>
                     </div>
                     <div className="flex flex-col gap-1.5">
-                      <Link href="/Dashboard" className="flex items-center gap-3 px-4 py-3 text-[17px] font-semibold rounded-2xl transition-all duration-200 text-slate-700 hover:bg-red-50">
+                      <Link href={dashboardPath} className="flex items-center gap-3 px-4 py-3 text-[17px] font-semibold rounded-2xl transition-all duration-200 text-slate-700 hover:bg-red-50">
                         <LayoutDashboard size={22} className="text-orange-500" />
                         My Dashboard
                       </Link>
@@ -211,10 +210,14 @@ const Navbar = () => {
                   Home
                 </Link>
                 <Link href="/BrowseEvents" className={`flex items-center gap-4 px-5 py-4 text-lg font-bold rounded-2xl border-l-4 transition-all duration-150 ${pathname === "/BrowseEvents" ? "bg-red-100 text-slate-900 border-orange-400" : "text-slate-600 border-transparent hover:bg-red-50/70"}`}>
-                  <Car size={22} />
+                  <ChefHat size={22} />
                   Browse Recipes
                 </Link>
-                <Link href="/Dashboard" onClick={(e) => handleProtectedNavigation(e, "/Dashboard")} className={`flex items-center gap-4 px-5 py-4 text-lg font-bold rounded-2xl border-l-4 transition-all duration-150 ${pathname.toLowerCase().includes("/dashboard") ? "bg-red-100 text-slate-900 border-orange-400" : "text-slate-600 border-transparent hover:bg-red-50/70"}`}>
+                <Link 
+                  href={dashboardPath} 
+                  onClick={(e) => handleProtectedNavigation(e, dashboardPath)} 
+                  className={`flex items-center gap-4 px-5 py-4 text-lg font-bold rounded-2xl border-l-4 transition-all duration-150 ${pathname.toLowerCase().includes("/dashboard") ? "bg-red-100 text-slate-900 border-orange-400" : "text-slate-600 border-transparent hover:bg-red-50/70"}`}
+                >
                   <LayoutDashboard size={22} />
                   My Dashboard
                 </Link>

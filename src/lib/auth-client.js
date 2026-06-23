@@ -1,7 +1,10 @@
-import { createAuthClient } from "better-auth/react"
-export const authClient = createAuthClient({
-    /** The base URL of the server (optional if you're using the same domain) */
-    baseURL: process.env.BETTER_AUTH_URL
-})
+import { createAuthClient } from "better-auth/react";
 
-export const { signIn, signUp, useSession } = createAuthClient()
+// 🎯 একটাই instance — আগে দুইবার createAuthClient() কল হচ্ছিল, এখন একবার
+export const authClient = createAuthClient({
+  // 🎯 NEXT_PUBLIC_ prefix ছাড়া env variable browser-এ undefined হয়ে যায়
+  baseURL: process.env.NEXT_PUBLIC_BASE_URL,
+});
+
+// 🎯 আলাদা createAuthClient() কল না করে, একই authClient instance থেকে destructure
+export const { signIn, signUp, signOut, useSession } = authClient;

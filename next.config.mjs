@@ -12,6 +12,10 @@ const nextConfig = {
       },
       {
         protocol: 'https',
+        hostname: 'i.ibb.co.com', // 🎯 এই নতুন ডোমেনটি এখানে যোগ করুন
+      },
+      {
+        protocol: 'https',
         hostname: 'images.unsplash.com', // আনস্প্ল্যাশ (রেসিপি/হিরো ইমেজ) এর জন্য
       },
       { protocol: 'https',

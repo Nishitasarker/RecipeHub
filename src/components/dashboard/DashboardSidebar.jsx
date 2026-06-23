@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import React from "react";
 import { 
   LayoutSideContentLeft, 
@@ -16,39 +16,43 @@ import {
 import { Button, Drawer } from "@heroui/react";
 import { ChefHat } from "lucide-react";
 import { authClient } from "@/lib/auth-client"; 
-import { useRouter } from "next/navigation";
-import { toast } from "react-hot-toast"; // 👈 টোস্ট দেখানোর জন্য ইমপোর্ট (sonner হলে 'import { toast } from "sonner"')
+import { useRouter, usePathname } from "next/navigation"; 
+import { toast } from "react-toastify"; 
 
 export function DashboardSidebar({ userRole = "user" }) { 
   const router = useRouter();
+  const pathname = usePathname(); 
+
+  const normalizedRole = userRole?.toLowerCase();
+  const folderName = normalizedRole === "admin" ? "admin" : "user"; 
+  const baseUserPath = `/dashboard/${folderName}`; 
 
   const userItems = [
-    { icon: House, label: "Overview", path: "/dashboard" },
-    { icon: Folders, label: "My Recipes", path: "/dashboard/my-recipes" },
-    { icon: Plus, label: "Add Recipe", path: "/dashboard/add-recipe" },
-    { icon: Heart, label: "My Favorites", path: "/dashboard/favorites" },
-    { icon: ShoppingBag, label: "Purchased Recipes", path: "/dashboard/purchased" },
-    { icon: Person, label: "Profile", path: "/dashboard/profile" },
+    { icon: House, label: "Overview", path: baseUserPath }, 
+    { icon: Folders, label: "My Recipes", path: `${baseUserPath}/my-recipes` },
+    { icon: Plus, label: "Add Recipe", path: `${baseUserPath}/add-recipe` },
+    { icon: Heart, label: "My Favorites", path: `${baseUserPath}/favorites` },
+    { icon: ShoppingBag, label: "Purchased Recipes", path: `${baseUserPath}/purchased` },
+    { icon: Person, label: "Profile", path: `${baseUserPath}/profile` },
   ];
 
   const adminItems = [
-    { icon: House, label: "Admin Overview", path: "/admin" },
-    { icon: Persons, label: "Manage Users", path: "/admin/users" },
-    { icon: Folders, label: "Manage Recipes", path: "/admin/recipes" },
-    { icon: FileText, label: "Reports", path: "/admin/reports" },
-    { icon: Receipt, label: "Transactions", path: "/admin/transactions" },
+    { icon: House, label: "Admin Overview", path: "/dashboard/admin" }, 
+    { icon: Persons, label: "Manage Users", path: "/dashboard/admin/users" },
+    { icon: Folders, label: "Manage Recipes", path: "/dashboard/admin/recipes" },
+    { icon: FileText, label: "Reports", path: "/dashboard/admin/reports" },
+    { icon: Receipt, label: "Transactions", path: "/dashboard/admin/transactions" },
   ];
 
-  const navItems = userRole === "admin" ? adminItems : userItems;
+  const navItems = normalizedRole === "admin" ? adminItems : userItems;
 
-  // 🛠️ লগআউট হ্যান্ডলার ফাংশন (টোস্ট ও হোম পেজ রিডাইরেক্টসহ)
   const handleLogout = async () => {
     try {
       await authClient.signOut({
         fetchOptions: {
           onSuccess: () => {
-            toast.success("Successfully logged out! See you again. 👋"); // 👈 সাকসেস টোস্ট
-            router.push("/"); // 👈 হোম পেজে রিডাইরেক্ট করা হলো
+            toast.success("Successfully logged out! See you again. 👋");
+            router.push("/");
             router.refresh(); 
           },
           onError: (ctx) => {
@@ -77,17 +81,27 @@ export function DashboardSidebar({ userRole = "user" }) {
           <p className="text-xs md:text-sm text-gray-400 font-bold uppercase pt-2 pl-2">{userRole} Dashboard</p>
         </div>
 
-        {navItems.map((item) => (
-          <button
-            key={item.label}
-            className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-foreground transition-colors hover:bg-default-100"
-            type="button"
-            onClick={() => router.push(item.path)} 
-          >
-            <item.icon className="size-5 text-muted-foreground" />
-            {item.label}
-          </button>
-        ))}
+        {navItems.map((item) => {
+          const isActive = pathname === item.path;
+
+          return (
+            <button
+              key={item.label}
+              // 🔴 অ্যাক্টিভ হলে bg-red-50 এবং টেক্সট red-600 সেট করা হয়েছে
+              className={`flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors ${
+                isActive 
+                  ? "bg-orange-100 text-orange-600 font-semibold" 
+                  : "text-muted-foreground hover:bg-default-100"
+              }`}
+              type="button"
+              onClick={() => router.push(item.path)} 
+            >
+              {/* 🔴 অ্যাক্টিভ আইকনের কালারও টেক্সটের সাথে মিলিয়ে চেঞ্জ হবে */}
+              <item.icon className={`size-5 ${isActive ? "text-red-600" : "text-muted-foreground"}`} />
+              {item.label}
+            </button>
+          );
+        })}
       </nav>
 
       <div className="border-t border-default-200 pt-4">
@@ -105,7 +119,7 @@ export function DashboardSidebar({ userRole = "user" }) {
 
   return (
     <>
-      <aside className="hidden h-screen w-64 shrink-0 border-r border-default-200 p-4 lg:block sticky top-0">
+      <aside className="hidden h-screen w-64 shrink-0 border-r border-default-200 p-4 lg:block sticky top-0 bg-white">
         {navContent}
       </aside>
 
