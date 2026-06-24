@@ -201,12 +201,13 @@ const BrowseRecipes = () => {
 
                     {/* রাউন্ড রিকোয়ারমেন্ট অনুযায়ী অথর বা ইউজারের নাম */}
                     <div className="text-xs text-neutral-500 font-medium pt-1">
-                      By <span className="font-bold text-neutral-700">{recipe.authorName || "Anonymous Chef"}</span>
+                      By <span className="font-bold text-neutral-700">
+                        {recipe.authorName || "Anonymous Chef"}</span>
                     </div>
 
                     {/* রিকোয়ারমেন্ট অনুযায়ী View Details বাটন লিঙ্ক */}
                     <div className="pt-2 mt-auto">
-                      <Link href={`/browse-recipes/${recipe._id}`} className="w-full py-3 bg-neutral-50 hover:bg-orange-600 hover:text-white text-neutral-800 border border-neutral-200 hover:border-orange-600 rounded-xl font-bold text-sm flex items-center justify-center gap-2 transition-all group/btn shadow-sm">
+                      <Link href={`/browseRecipes/${recipe._id}`} className="w-full py-3 bg-neutral-50 hover:bg-orange-600 hover:text-white text-neutral-800 border border-neutral-200 hover:border-orange-600 rounded-xl font-bold text-sm flex items-center justify-center gap-2 transition-all group/btn shadow-sm">
                         <span>View Details</span>
                         <ArrowRight size={16} className="group-hover/btn:translate-x-1 transition-transform" />
                       </Link>
