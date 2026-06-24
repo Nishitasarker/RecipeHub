@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChefHat } from 'lucide-react';
+import Link from 'next/link';
 
 export default function HeroSection() {
   const [isLoading, setIsLoading] = useState(true);
@@ -151,6 +152,7 @@ export default function HeroSection() {
               Welcome to RecipeHub, the ultimate community for food lovers. Discover thousands of mouth-watering recipes, create your own culinary masterpieces, and share your cooking passion with the world.
             </motion.p>
             <motion.div variants={fadeInUp}>
+              <Link href="/browseRecipes">
               <motion.button 
                 whileHover={{ scale: 1.02, transition: { type: "spring", stiffness: 500, damping: 15 } }}
                 whileTap={{ scale: 0.98 }}
@@ -158,6 +160,7 @@ export default function HeroSection() {
               >
                 Explore Recipes
               </motion.button>
+              </Link>
             </motion.div>
           </motion.div>
 

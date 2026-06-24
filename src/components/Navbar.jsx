@@ -115,7 +115,7 @@ const Navbar = () => {
               </Link>
             </li>
             <li>
-              <Link href="/BrowseEvents" className={pathname === "/BrowseEvents" ? "text-gray-800 font-bold text-lg" : "text-gray-600 text-lg hover:text-gray-900 transition-colors"}>
+              <Link href="/browseRecipes" className={pathname === "/browseRecipes" ? "text-gray-800 font-bold text-lg" : "text-gray-600 text-lg hover:text-gray-900 transition-colors"}>
                 Browse Recipes
               </Link>
             </li>
@@ -209,7 +209,7 @@ const Navbar = () => {
                   <Home size={22} />
                   Home
                 </Link>
-                <Link href="/BrowseEvents" className={`flex items-center gap-4 px-5 py-4 text-lg font-bold rounded-2xl border-l-4 transition-all duration-150 ${pathname === "/BrowseEvents" ? "bg-red-100 text-slate-900 border-orange-400" : "text-slate-600 border-transparent hover:bg-red-50/70"}`}>
+                <Link href="/browseRecipes" className={`flex items-center gap-4 px-5 py-4 text-lg font-bold rounded-2xl border-l-4 transition-all duration-150 ${pathname === "/browseRecipes" ? "bg-red-100 text-slate-900 border-orange-400" : "text-slate-600 border-transparent hover:bg-red-50/70"}`}>
                   <ChefHat size={22} />
                   Browse Recipes
                 </Link>
