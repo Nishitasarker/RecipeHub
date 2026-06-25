@@ -36,13 +36,17 @@ export const auth = betterAuth({
     },
   },
 
-  session :{
+  session: {
+    strategy: "jwt", 
+    expiresIn: 60 * 60 * 24 * 30, // 🟢 সেশনের মেয়াদ ৩০ দিন (১ মাস) করা হলো
+    updateAge: 60 * 60 * 24,    // প্রতিদিন ব্যাকএন্ড সেশনের অ্যাক্টিভিটি চেক/আপডেট করবে
+    
     cookieCache: {
-      enabled:false,
-      strategy:"jwt",
-      maxAge: 60 * 5,
+      enabled: true, 
+      maxAge: 60 * 5, 
     }
   },
+  
   plugins: [
     jwt()
   ]

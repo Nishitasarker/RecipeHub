@@ -37,6 +37,8 @@ export async function POST(request) {
     const newRecipe = {
       ...body,
       authorId: session.user.id, // সিকিউরিটির জন্য সেশনের আইডি ব্যবহার করা ভালো
+      authorName: session.user.name || "Unknown", 
+      authorEmail: session.user.email,
       likesCount: 0,
       isFeatured: false,
       status: "pending", 

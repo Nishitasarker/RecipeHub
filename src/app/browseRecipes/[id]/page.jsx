@@ -111,75 +111,64 @@ function RecipeDetailsContent() {
   }, [paymentSuccess, sessionId, id, router]);
 
   // ✅ Like handler - email দিয়ে store
-  const handleLike = async () => {
-    if (!loggedInUser) {
-      toast.error("Please log in first!");
-      return;
-    }
-    if (isLiked) {
-      toast.info("You already liked this recipe!");
-      return;
-    }
-    try {
-      setLikes((prev) => prev + 1);
-      setIsLiked(true);
-      await fetch(`http://localhost:5000/api/recipes/like/${id}`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userEmail: loggedInUser.email })
-      });
-    } catch (error) {
-      console.error("Error liking recipe:", error);
-      setLikes((prev) => prev - 1);
-      setIsLiked(false);
-    }
-  };
+ const handleLike = async () => {
+  if (!loggedInUser) {
+    toast.error("Please log in first!");
+    return;
+  }
+
+  const wasLiked = isLiked;
+  const endpoint = wasLiked ? 'unlike' : 'like';
+
+  setLikes((prev) => (wasLiked ? prev - 1 : prev + 1));
+  setIsLiked(!wasLiked);
+
+  try {
+    const res = await fetch(`http://localhost:5000/api/recipes/${endpoint}/${id}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ userEmail: loggedInUser.email })
+    });
+    const data = await res.json();
+    if (!data.success) throw new Error(data.message);
+  } catch (error) {
+    console.error("Error toggling like:", error);
+    setLikes((prev) => (wasLiked ? prev + 1 : prev - 1));
+    setIsLiked(wasLiked);
+  }
+};
 
   // ✅ Favorite handler - token দিয়ে auth, email দিয়ে store
-  const handleFavorite = async () => {
-    if (!loggedInUser) {
-      toast.error("Please log in first!");
-      return;
-    }
-    try {
-      const tokenRes = await fetch('/api/auth/token', { credentials: 'include' });
-const tokenData = await tokenRes.json();
-const token = tokenData?.token;
-if (!token) {
-  toast.error("Session expired. Please log in again.");
-  return;
-}
+  // handleFavorite ফাংশনটি এভাবে পরিবর্তন করুন:
+const handleFavorite = async () => {
+  if (!loggedInUser) {
+    toast.error("Please log in first!");
+    return;
+  }
 
-      const newFavoriteState = !isFavorite;
-      setIsFavorite(newFavoriteState); // optimistic update
+  const newFavoriteState = !isFavorite;
+  setIsFavorite(newFavoriteState);
 
-      const res = await fetch(`http://localhost:5000/api/favorites`, {
-        method: newFavoriteState ? 'POST' : 'DELETE',
-        headers: { 
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({ 
-          recipeId: id, 
-          recipeName: recipe.recipeName,
-          recipeImage: recipe.recipeImage,
-        })
-      });
+  try {
+    const res = await fetch(`http://localhost:5000/api/favorites`, {
+      method: isFavorite ? 'DELETE' : 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        recipeId: id,
+        userEmail: loggedInUser.email,
+        recipeName: recipe?.recipeName,
+        recipeImage: recipe?.recipeImage
+      })
+    });
+    const data = await res.json();
+    if (!data.success) throw new Error(data.message || "Failed");
+    toast.success(newFavoriteState ? "Added to favorites!" : "Removed from favorites!");
+  } catch (error) {
+    setIsFavorite(!newFavoriteState);
+    toast.error("Operation failed. Try again.");
+  }
+};
 
-      const data = await res.json();
-      if (data.success) {
-        toast.success(newFavoriteState ? "Added to favorites!" : "Removed from favorites!");
-      } else {
-        // rollback if failed
-        setIsFavorite(!newFavoriteState);
-        toast.error(data.message || "Something went wrong!");
-      }
-    } catch (error) {
-      console.error("Favorite error:", error);
-      setIsFavorite(prev => !prev);
-      toast.error("Something went wrong!");
-    }
-  };
 
   // ✅ Report handler
   const handleReportSubmit = async (e) => {

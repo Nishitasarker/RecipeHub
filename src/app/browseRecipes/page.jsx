@@ -200,9 +200,19 @@ const BrowseRecipes = () => {
                     </div>
 
                     {/* রাউন্ড রিকোয়ারমেন্ট অনুযায়ী অথর বা ইউজারের নাম */}
+                    <div className='flex justify-between'>
                     <div className="text-xs text-neutral-500 font-medium pt-1">
-                      By <span className="font-bold text-neutral-700">
-                        {recipe.authorName || "Anonymous Chef"}</span>
+                    Listed by: <span className="font-bold text-neutral-700">
+                        {recipe.authorName ? recipe.authorName.split(' ')[0] : 'Anonymous Chef'}</span>
+                    </div>
+
+                    <div className="text-xs text-neutral-500 font-medium pt-1">
+                     Published on:
+                      <span className="text-xs font-bold text-neutral-700">
+                        {new Date(recipe.createdAt).toLocaleDateString('en-US', {
+                        month: 'short', day: 'numeric', year: 'numeric' })} </span>
+
+                    </div>
                     </div>
 
                     {/* রিকোয়ারমেন্ট অনুযায়ী View Details বাটন লিঙ্ক */}

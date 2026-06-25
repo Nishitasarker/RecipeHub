@@ -23,11 +23,11 @@ export async function proxy(request) {
     // যদি কোনো সাধারণ ইউজার (role: user) এডমিন প্যানেলে ঢোকার চেষ্টা করে
     if (pathname.startsWith('/dashboard/admin') && userRole !== 'admin') {
         // তাকে জোরপূর্বক তার নিজস্ব ড্যাশবোর্ডে পাঠিয়ে দেওয়া হবে (৪MD ব্লক করতে)
-        return NextResponse.redirect(new URL('/dashboard/organizer', request.url));
+        return NextResponse.redirect(new URL('/dashboard/user', request.url));
     }
 
     // যদি কোনো এডমিন (role: admin) ইউজার/অর্গানাইজার প্যানেলে ঢোকার চেষ্টা করে
-    if (pathname.startsWith('/dashboard/organizer') && userRole === 'admin') {
+    if (pathname.startsWith('/dashboard/user') && userRole === 'admin') {
         // তাকে এডমিন ড্যাশবোর্ডে রিডাইরেক্ট করা হবে
         return NextResponse.redirect(new URL('/dashboard/admin', request.url));
     }
@@ -41,6 +41,6 @@ export const config = {
     matcher: [
         '/profile', 
         '/dashboard/admin/:path*', 
-        '/dashboard/organizer/:path*'
+        '/dashboard/user/:path*'
     ]
 };

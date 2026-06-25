@@ -82,77 +82,47 @@ const AddRecipe = () => {
     }
   };
 
-  const handleSubmit = async (e) => {
+ const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
     setErrorMsg('');
 
-    // limit চেক — image upload করার আগে
+    // চেক লিমিট
     if (limitInfo && !limitInfo.canAddMore) {
-      setErrorMsg(`আপনি Free Plan-এর ${limitInfo.limit}টি রেসিপি লিমিট শেষ করে ফেলেছেন। আরও রেসিপি যুক্ত করতে Premium-এ আপগ্রেড করুন।`);
+      const msg = `You have reached your limit of ${limitInfo.limit} recipes.`;
+      setErrorMsg(msg);
+      toast.error(msg); // 🎯 Error Toast
       setIsSubmitting(false);
       return;
     }
 
-    if (!category) {
-      setErrorMsg('Please select a recipe category.');
-      setIsSubmitting(false);
-      return;
-    }
-
-    if (ingredients.length === 0) {
-      setErrorMsg('Please add at least one secret ingredient.');
-      setIsSubmitting(false);
-      return;
-    }
-    if (!imageFile) {
-      setErrorMsg('Please upload an image.');
-      setIsSubmitting(false);
-      return;
-    }
-    if (!session?.user) {
-      setErrorMsg('Authentication required. Please log in again.');
+    // ভ্যালিডেশন চেকগুলো
+    if (!category || ingredients.length === 0 || !imageFile || !session?.user) {
+      const msg = "Please fill all required fields correctly.";
+      setErrorMsg(msg);
+      toast.error(msg); // 🎯 Error Toast
       setIsSubmitting(false);
       return;
     }
 
     try {
-      // Step A: ImgBB-তে ইমেজ আপলোড
       const uploadedImageUrl = await imageUpload(imageFile);
+      if (!uploadedImageUrl) throw new Error('Image upload failed.');
 
-      if (!uploadedImageUrl) {
-        throw new Error('Could not retrieve image URL from ImgBB.');
-      }
-
-      // Step B: ডেটা পেলোড স্ট্রাকচার তৈরি
       const recipePayload = {
         recipeName,
         recipeImage: uploadedImageUrl,
-        category: category.trim(),
-        cuisineType: cuisineType.trim(),
+        category,
+        cuisineType,
         difficultyLevel,
         preparationTime: parseInt(preparationTime, 10),
         ingredients,
         instructions,
-        authorId: session.user.id,
-        authorName: session.user.name,
-        authorEmail: session.user.email,
       };
 
-      // Step C: authClient.token() দিয়ে fresh JWT আনা
-      const { data, error } = await authClient.token();
-      if (error || !data?.token) {
-        throw new Error('Could not get auth token. Please log in again.');
-      }
-      const token = data.token;
-
-      // Step D: Express ব্যাকএন্ডে ডেটা পাঠানো
-      const response = await fetch('http://localhost:5000/api/recipes', {
+      const response = await fetch('/api/recipes', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(recipePayload),
       });
 
@@ -162,7 +132,8 @@ const AddRecipe = () => {
         throw new Error(dbData.message || 'Failed to sync recipe data.');
       }
 
-      toast?.success('🎉 Masterpiece successfully published!') || alert('🎉 Masterpiece successfully published!');
+      // 🎯 Success Toast
+      toast.success('🎉 Masterpiece successfully published!');
 
       // Form Reset
       setRecipeName('');
@@ -174,14 +145,15 @@ const AddRecipe = () => {
       setImageFile(null);
       setImagePreview(null);
 
-      // সাবমিট সফল হলে limit count-টাও রিফ্রেশ করা
       setLimitInfo((prev) =>
         prev ? { ...prev, count: prev.count + 1, canAddMore: prev.isPremium || prev.count + 1 < prev.limit } : prev
       );
 
     } catch (err) {
       console.error("Recipe Submit Error: ", err);
-      setErrorMsg(err.message || 'An error occurred.');
+      setErrorMsg(err.message);
+      // 🎯 Error Toast (যদি সার্ভার বা অন্য কোথাও এরর হয়)
+      toast.error(err.message || 'Failed to add recipe. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
