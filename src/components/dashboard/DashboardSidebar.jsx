@@ -51,7 +51,7 @@ export function DashboardSidebar({ userRole = "user" }) {
       await authClient.signOut({
         fetchOptions: {
           onSuccess: () => {
-            toast.success("Successfully logged out! See you again. 👋");
+            toast.success("Successfully logged out! See you again.");
             router.push("/");
             router.refresh(); 
           },
@@ -71,9 +71,9 @@ export function DashboardSidebar({ userRole = "user" }) {
       <nav className="flex flex-col gap-1">
         <div className="px-3 py-2 sm:border-b">
           <div className="flex items-center gap-1">
-            <span className="text-2xl md:text-4xl text-[#e65c00]">
-              <ChefHat size="1em" />
-            </span>
+            <span className="p-1 bg-orange-500/10 text-orange-600 rounded-full border border-orange-200 shadow-inner">
+                        <ChefHat size={36} />
+                      </span>
             <span className="text-lg md:text-3xl text-[#c2271d] font-bold">
               RecipeHub
             </span>
@@ -124,8 +124,8 @@ export function DashboardSidebar({ userRole = "user" }) {
       </aside>
 
       <Drawer>
-        <Button className="lg:hidden" variant="secondary" isIconOnly aria-label="Open Sidebar">
-          <LayoutSideContentLeft className="size-5" />
+        <Button className="lg:hidden flex items-end  mt-4" variant="secondary" isIconOnly aria-label="Open Sidebar">
+          <LayoutSideContentLeft className="size-5 " />
         </Button>
         <Drawer.Backdrop>
           <Drawer.Content placement="left">

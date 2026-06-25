@@ -53,9 +53,9 @@ export default function Footer() {
           >
             {/* Logo */}
             <Link href="/" className="flex items-center gap-2 group">
-              <span className="text-2xl md:text-4xl text-[#e65c00] transition-transform duration-300 group-hover:rotate-12">
-                <LuChefHat size="1em" />
-              </span>
+             <span className="p-2 bg-orange-500/10 text-orange-600 rounded-full border border-orange-200 shadow-inner">
+                         <LuChefHat size={36} />
+                       </span>
               <span className="text-lg md:text-2xl text-[#c2271d] font-bold tracking-tight">
                 RecipeHub
               </span>

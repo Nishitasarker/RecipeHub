@@ -97,9 +97,9 @@ const Navbar = () => {
         {/* Left Side */}
         <div className="flex items-center ">
           <Link href="/" className="flex items-center justify-center">
-            <span className="text-3xl md:text-5xl text-[#e65c00]">
-              <ChefHat size="1em" />
-            </span>
+            <span className="p-2 bg-orange-500/10 text-orange-600 rounded-full border border-orange-200 shadow-inner">
+                        <ChefHat size={36} />
+                      </span>
             <span className="text-xl md:text-3xl text-[#c2271d] font-bold">
               RecipeHub
             </span>
@@ -152,9 +152,9 @@ const Navbar = () => {
               <h2 className="hidden text-lg font-bold md:block text-yellow-800 ">{user?.name ? user.name.split(' ')[0].toUpperCase() : ''}</h2>
               <div className="relative">
                 <button onClick={() => setIsOpen(!isOpen)} className="avatar block cursor-pointer focus:outline-none focus:scale-105 transition-transform">
-                  <div className="w-9 h-9 md:w-10 md:h-10 rounded-full ring ring-sky-500 ring-offset-base-100 ring-offset-2 overflow-hidden">
-                    <Image src={user?.image || "/user.png"} alt="User" width={40} height={40} className="rounded-full object-cover" />
-                  </div>
+                  <div className="w-9 h-9 md:w-10 md:h-10 rounded-full ring ring-sky-500 ring-offset-base-100 ring-offset-2 overflow-hidden flex-shrink-0">
+                <Image src={user?.image || "/user.png"}  alt="User"  width={40}  height={40} className="w-full h-full rounded-full object-cover" />
+                </div>
                 </button>
                 
                 {isOpen && (

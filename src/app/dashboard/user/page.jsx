@@ -11,9 +11,11 @@ import {
   ArrowUpRight,
   Loader2 
 } from 'lucide-react';
-import { authClient } from "@/lib/auth-client"; 
+import { authClient } from "@/lib/auth-client";
+import { useRouter } from 'next/navigation'; 
 
 const DashboardOverview = () => {
+  const router = useRouter();
   // ১. সেশন থেকে লগইন করা ইউজারের ডাটা রিড করা
   const { data: session, isPending: authLoading } = authClient.useSession();
   const loggedInUser = session?.user;
@@ -188,7 +190,9 @@ const DashboardOverview = () => {
               </p>
             </div>
           </div>
-          <button className="bg-amber-500 hover:bg-amber-600 text-white font-semibold px-5 py-2.5 rounded-xl transition-all shadow-md flex items-center gap-2 group whitespace-nowrap">
+          <button 
+           onClick={() => router.push(`/dashboard/user/profile`)}
+          className="bg-amber-500 hover:bg-amber-600 text-white font-semibold px-5 py-2.5 rounded-xl transition-all shadow-md flex items-center gap-2 group whitespace-nowrap">
             Go Premium <ArrowUpRight size={16} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
           </button>
         </div>
