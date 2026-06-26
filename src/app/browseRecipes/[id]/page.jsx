@@ -24,6 +24,7 @@ function RecipeDetailsContent() {
   const [likes, setLikes] = useState(0);
   const [isLiked, setIsLiked] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
+  const [isReported, setIsReported] = useState(false);
   const [isReportModalOpen, setIsReportModalOpen] = useState(false);
   const [reportReason, setReportReason] = useState('Spam');
   const [submittingReport, setSubmittingReport] = useState(false);
@@ -61,6 +62,7 @@ function RecipeDetailsContent() {
         if (data.success) {
           setIsFavorite(data.isFavorite);
           setIsLiked(data.isLiked); // ⬅️ এই লাইনটা নতুন add করুন
+           setIsReported(data.isReported);
         }
       })
       .catch(err => console.error("Error checking user actions:", err));
@@ -171,33 +173,56 @@ const handleFavorite = async () => {
 
 
   // ✅ Report handler
-  const handleReportSubmit = async (e) => {
-    e.preventDefault();
-    if (!loggedInUser) {
-      toast.error("Please log in first!");
-      return;
-    }
-    setSubmittingReport(true);
-    try {
-      await fetch(`http://localhost:5000/api/reports`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          recipeId: id,
-          userEmail: loggedInUser.email, // ✅ email store হবে
-          reason: reportReason,
-          status: "pending",
-          createdAt: new Date()
-        })
-      });
+
+  const openReportModal = () => {
+  if (!loggedInUser) {
+    toast.error("Please log in first to report this recipe!");
+    return;
+  }
+  if (isReported) {
+    toast.info("You have already reported this recipe.");
+    return;
+  }
+  setIsReportModalOpen(true);
+};
+
+
+ const handleReportSubmit = async (e) => {
+  e.preventDefault();
+  if (!loggedInUser) {
+    toast.error("Please log in first!");
+    return;
+  }
+
+  setSubmittingReport(true);
+  try {
+    const response = await fetch(`http://localhost:5000/api/reports`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        recipeId: id,
+        userEmail: loggedInUser.email,
+        reason: reportReason
+      })
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
       toast.success("Recipe reported successfully.");
       setIsReportModalOpen(false);
-    } catch (error) {
-      console.error("Error submitting report:", error);
-    } finally {
-      setSubmittingReport(false);
+      setIsReported(true); 
+    } else {
+      toast.error(data.message || "Something went wrong!");
     }
-  };
+  } catch (error) {
+    console.error("Error submitting report:", error);
+    toast.error("Failed to submit report.");
+  } finally {
+    setSubmittingReport(false);
+  }
+};
+
 
   const handlePurchase = async () => {
     if (!loggedInUser?.email) {
@@ -306,14 +331,13 @@ const handleFavorite = async () => {
               <span>{isFavorite ? 'Saved' : 'Favorite'}</span>
             </motion.button>
 
-            <motion.button 
-              whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
-              onClick={() => setIsReportModalOpen(true)}
-              className="flex items-center gap-2 px-4 py-2.5 bg-white border border-neutral-200 rounded-xl text-sm font-bold text-neutral-500 hover:bg-red-50 hover:text-red-600 hover:border-red-200 transition-all"
-            >
-              <AlertTriangle size={18} />
-              <span>Report</span>
-            </motion.button>
+           <motion.button whileHover={!isReported ? { scale: 1.05 } : {}} whileTap={!isReported ? { scale: 0.95 } : {}}onClick={openReportModal}disabled={isReported}
+          className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-bold border transition-all ${
+           isReported 
+          ? 'bg-neutral-100 border-neutral-200 text-neutral-400 cursor-not-allowed' 
+         : 'bg-white border-neutral-200 text-neutral-500 hover:bg-red-50 hover:text-red-600 hover:border-red-200'}`}>
+          <AlertTriangle size={18} /> <span>{isReported ? 'Reported' : 'Report'}</span>
+</motion.button>
           </div>
 
           {checkingAccess ? (
