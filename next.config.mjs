@@ -3,20 +3,23 @@ const nextConfig = {
   /* config options here */
   reactCompiler: true,
 
-  // 🎯 ইমেজ হোস্ট কনফিগারেশন এখানে যোগ করা হলো
   images: {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'i.ibb.co', // ইমগবিবি (ইউজার অ্যাভাটার) এর জন্য
+        hostname: 'i.ibb.co', 
       },
       {
         protocol: 'https',
-        hostname: 'i.ibb.co.com', // 🎯 এই নতুন ডোমেনটি এখানে যোগ করুন
+        hostname: 'i.ibb.co.com', 
       },
       {
         protocol: 'https',
-        hostname: 'images.unsplash.com', // আনস্প্ল্যাশ (রেসিপি/হিরো ইমেজ) এর জন্য
+        hostname: 'images.unsplash.com', 
+      },
+      {
+        protocol: 'https',
+        hostname: 'lh3.googleusercontent.com',
       },
       { protocol: 'https',
          hostname: 'ui-avatars.com' },

@@ -11,7 +11,7 @@ const features = [
 ];
 
 export default function AboutSection() {
-  // অ্যানিমেশন কন্ট্রোলার
+  
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: { opacity: 1, transition: { staggerChildren: 0.2 } }
@@ -51,7 +51,7 @@ export default function AboutSection() {
           <img src="/chef-image.png" alt="Chef" className="h-72 object-cover rounded-2xl shadow-2xl" />
         </motion.div>
 
-        {/* ফিচার কার্ডস */}
+       
         <div className="w-full md:w-2/3 grid grid-cols-1 md:grid-cols-3 gap-8">
           {features.map((feature, index) => (
             <motion.div

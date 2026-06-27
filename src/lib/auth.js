@@ -11,8 +11,15 @@ export const auth = betterAuth({
     enabled: true,
   },
 
-  // 🎯 ভুল/অকার্যকর "model" ব্লক রিমুভ করা হলো — actual collection নাম default singular "user" ই থাকছে (ছবিতে কনফার্ম করা)
-  database: mongodbAdapter(db, {
+
+  socialProviders:{
+    google:{
+         clientId: process.env.GOOGLE_CLIENTID,
+         clientSecret: process.env.GOOGLE_SECRET,
+    },
+  },
+
+   database: mongodbAdapter(db, {
     client,
   }),
 
