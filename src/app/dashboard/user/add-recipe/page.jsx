@@ -183,8 +183,7 @@ const AddRecipe = () => {
             >
               <Lock size={20} className="text-amber-600 shrink-0 mt-0.5" />
               <div className="text-sm font-semibold text-amber-800">
-                আপনি Free Plan-এর {limitInfo.limit}টি রেসিপি লিমিট শেষ করে ফেলেছেন। আরও রেসিপি যুক্ত করতে Premium-এ আপগ্রেড করুন।
-              </div>
+               You’ve hit the maximum recipe limit for your current plan. Upgrade to Premium to keep publishing your culinary masterpieces.              </div>
             </motion.div>
           )}
         </AnimatePresence>
@@ -242,6 +241,7 @@ const AddRecipe = () => {
                       <Upload size={24} />
                     </div>
                     <p className="text-sm font-bold text-neutral-700">Click or Drag your file here</p>
+                    <p className="text-xs text-neutral-400 mt-1">Only high-quality JPG, JPEG, PNG, or WEBP images up to 32MB are accepted.</p>
                   </div>
                 )}
               </div>
