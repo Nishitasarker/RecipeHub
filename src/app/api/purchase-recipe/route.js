@@ -23,6 +23,7 @@ export async function POST(request) {
         const userEmail = session.customer_email || session.customer_details?.email;
         const targetRecipeId = session.metadata?.recipeId;
         const targetPurchaseType = session.metadata?.purchaseType;
+         const paidAmount = session.amount_total ? session.amount_total / 100 : null;
 
         // 🔥 অত্যন্ত গুরুত্বপূর্ণ: এক্সপ্রেস ব্যাকএন্ডে (Port 5000) ডাটাবেজে সেভ করার জন্য হিট করা
         const backendResponse = await fetch(`http://localhost:5000/api/save-purchase`, {
@@ -33,6 +34,7 @@ export async function POST(request) {
             recipeId: targetRecipeId,
             purchaseType: targetPurchaseType,
             sessionId: session_id,
+             amount: paidAmount,
           }),
         });
 

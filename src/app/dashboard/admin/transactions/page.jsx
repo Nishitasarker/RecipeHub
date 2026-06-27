@@ -1,23 +1,37 @@
 "use client"
 import React, { useEffect, useState } from 'react';
-import { format } from 'date-fns';
+import { authClient } from "@/lib/auth-client";
 
 const Transactions = () => {
   const [payments, setPayments] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    fetch('http://localhost:5000/api/payments', {
-      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-    })
-    .then(res => res.json())
-    .then(data => {
-      setPayments(data.data);
-      setLoading(false);
-    });
-  }, []);
+  const { data: session } = authClient.useSession();
+  const loggedInUser = session?.user;
 
-  if (loading) return <div className="text-center py-10">Loading Transactions...</div>;
+  useEffect(() => {
+    if (!loggedInUser?.email) {
+      setLoading(false);
+      return;
+    }
+
+    fetch(`http://localhost:5000/api/payments?email=${loggedInUser.email}`)
+      .then(res => res.json())
+      .then(data => {
+        setPayments(data.data || []);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error(err);
+        setLoading(false);
+      });
+  }, [loggedInUser?.email]);
+
+  if (!loggedInUser) {
+    return <div className="text-center py-10 text-gray-500">Please log in to view transactions.</div>;
+  }
+
+  if (loading) return <div className="text-center py-10 text-orange-600">Loading...</div>;
 
   return (
     <div className="p-6 bg-white rounded-2xl shadow-sm border border-gray-100">
@@ -28,6 +42,7 @@ const Transactions = () => {
           <thead>
             <tr className="text-gray-400 text-sm border-b">
               <th className="pb-4 font-medium">User Email</th>
+              <th className="pb-4 font-medium">Type</th>
               <th className="pb-4 font-medium">Amount</th>
               <th className="pb-4 font-medium">Transaction ID</th>
               <th className="pb-4 font-medium">Date</th>
@@ -38,12 +53,25 @@ const Transactions = () => {
             {payments.map((payment) => (
               <tr key={payment._id} className="border-b last:border-0 hover:bg-orange-50/30 transition">
                 <td className="py-4 text-sm font-medium">{payment.userEmail}</td>
+                <td className="py-4">
+                  <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                    payment.recipeId 
+                      ? 'bg-blue-100 text-blue-700' 
+                      : 'bg-purple-100 text-purple-700'
+                  }`}>
+                    {payment.recipeId ? "Recipe Purchase" : "Premium Subscription"}
+                  </span>
+                </td>
                 <td className="py-4 text-sm font-bold text-gray-800">${payment.amount}</td>
                 <td className="py-4 text-xs font-mono text-gray-500 truncate max-w-[150px]">
                   {payment.transactionId}
                 </td>
                 <td className="py-4 text-sm">
-                  {format(new Date(payment.paidAt), 'MMM dd, yyyy')}
+                  {new Date(payment.paidAt).toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric'
+                  })}
                 </td>
                 <td className="py-4">
                   <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
@@ -54,6 +82,14 @@ const Transactions = () => {
                 </td>
               </tr>
             ))}
+
+            {payments.length === 0 && (
+              <tr>
+                <td colSpan="6" className="text-center py-12 text-gray-400 font-medium">
+                  No transactions found.
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>
