@@ -16,17 +16,20 @@ const MyRecipes = () => {
 };
 
 
-  const fetchMyRecipes = async () => {
+ const fetchMyRecipes = async () => {
     try {
       setLoading(true);
-      const token = await getToken();
+      const { data: session } = await authClient.getSession();
+      const token = session?.session?.token;
+      const userEmail = session?.user?.email; // এখানে ইমেইলটি পাওয়া যাচ্ছে
 
-      if (!token) {
-        console.error("No token found. User may not be logged in.");
+      if (!token || !userEmail) {
+        console.error("No token or email found.");
         return;
       }
 
-      const res = await fetch("http://localhost:5000/api/my-recipes", {
+      // ইমেইলটিকে query parameter (?email=...) হিসেবে যুক্ত করুন
+      const res = await fetch(`http://localhost:5000/api/my-recipes?email=${userEmail}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -44,7 +47,6 @@ const MyRecipes = () => {
       setLoading(false);
     }
   };
-
   useEffect(() => {
     fetchMyRecipes();
   }, []);
@@ -72,21 +74,30 @@ const MyRecipes = () => {
   };
 
   // Update Form Submission Handler
-  const handleUpdateSubmit = async (e) => {
+ const handleUpdateSubmit = async (e) => {
     e.preventDefault();
     try {
+      const { data: session } = await authClient.getSession();
       const token = await getToken();
+      
+      // editingRecipe এর সাথে ইমেইলটি যুক্ত করে দিন
+      const payload = { 
+        ...editingRecipe, 
+        email: session?.user?.email 
+      };
+
       const res = await fetch(`http://localhost:5000/api/recipes/${editingRecipe._id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
         },
-        body: JSON.stringify(editingRecipe)
+        body: JSON.stringify(payload) // এখানে ইমেইলসহ ডেটা পাঠানো হচ্ছে
       });
+      
       const data = await res.json();
       if (data.success) {
-        alert("Recipe updated successfully and sent for admin review!");
+        alert("Recipe updated successfully!");
         setIsModalOpen(false);
         fetchMyRecipes();
       } else {
@@ -96,7 +107,6 @@ const MyRecipes = () => {
       console.error("Error updating recipe:", error);
     }
   };
-
   // ... বাকি JSX একই থাকবে
   
   

@@ -10,7 +10,7 @@ const features = [
   { icon: Crown, title: "Become Pro", desc: "Start upload and manage your content and get most views by other creators." }
 ];
 
-export default function FeaturesSection() {
+export default function AboutSection() {
   // অ্যানিমেশন কন্ট্রোলার
   const containerVariants = {
     hidden: { opacity: 0 },

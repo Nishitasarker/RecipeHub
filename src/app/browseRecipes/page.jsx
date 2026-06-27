@@ -28,23 +28,24 @@ const BrowseRecipes = () => {
   ];
 
   // 🟢 আপনার দেওয়া রুলস অনুযায়ী এক্সপ্রেস ব্যাকএন্ড থেকে ডাটা ফেচিং
-  useEffect(() => {
-    setLoading(true);
-    fetch('http://localhost:5000/api/recipes')
-      .then((res) => {
-        if (!res.ok) throw new Error('Failed to fetch recipes');
-        return res.json();
-      })
-      .then((data) => {
-        setRecipes(data);
-        setFilteredRecipes(data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.error("Error loading recipes:", err);
-        setLoading(false);
-      });
-  }, []);
+ useEffect(() => {
+  setLoading(true);
+  fetch('http://localhost:5000/api/recipes')
+    .then((res) => {
+      if (!res.ok) throw new Error('Failed to fetch recipes');
+      return res.json();
+    })
+    .then((data) => {
+      const recipesData = data.data || [];
+      setRecipes(recipesData);
+      setFilteredRecipes(recipesData);
+      setLoading(false);
+    })
+    .catch((err) => {
+      console.error("Error loading recipes:", err);
+      setLoading(false);
+    });
+}, []);
 
   // 🎯 ক্যাটাগরি ফিল্টার এবং সার্চ লজিক
   useEffect(() => {
