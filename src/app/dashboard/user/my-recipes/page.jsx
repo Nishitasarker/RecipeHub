@@ -1,7 +1,7 @@
 "use client"
 import React, { useEffect, useState } from 'react';
 import { Edit2, Trash2, Clock, Utensils, X } from 'lucide-react';
-import { authClient } from '@/lib/auth-client'; // তোমার auth-client path অনুযায়ী বদলাও
+import { authClient } from '@/lib/auth-client'; 
 
 const MyRecipes = () => {
   const [recipes, setRecipes] = useState([]);
@@ -9,7 +9,7 @@ const MyRecipes = () => {
   const [editingRecipe, setEditingRecipe] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // Better Auth থেকে session token নেওয়ার helper function
+
  const getToken = async () => {
   const { data: session } = await authClient.getSession();
   return session?.session?.token || null;
@@ -21,14 +21,14 @@ const MyRecipes = () => {
       setLoading(true);
       const { data: session } = await authClient.getSession();
       const token = session?.session?.token;
-      const userEmail = session?.user?.email; // এখানে ইমেইলটি পাওয়া যাচ্ছে
+      const userEmail = session?.user?.email; 
 
       if (!token || !userEmail) {
         console.error("No token or email found.");
         return;
       }
 
-      // ইমেইলটিকে query parameter (?email=...) হিসেবে যুক্ত করুন
+      
       const res = await fetch(`https://recipehub-server-side.vercel.app/api/my-recipes?email=${userEmail}`, {
         method: "GET",
         headers: {
@@ -51,36 +51,40 @@ const MyRecipes = () => {
     fetchMyRecipes();
   }, []);
 
-  // Delete Handler
-  const handleDelete = async (id) => {
-    if (window.confirm("Are you sure you want to delete this recipe?")) {
-      try {
-        const token = await getToken();
-        const res = await fetch(`https://recipehub-server-side.vercel.app/api/recipes/${id}`, {
-          method: 'DELETE',
-          headers: { 'Authorization': `Bearer ${token}` }
-        });
-        const data = await res.json();
-        if (data.success) {
-          alert("Recipe deleted successfully.");
-          setRecipes(recipes.filter(recipe => recipe._id !== id));
-        } else {
-          alert(data.message || "Failed to delete recipe.");
-        }
-      } catch (error) {
-        console.error("Error deleting recipe:", error);
-      }
-    }
-  };
+ 
+ const handleDelete = async (id) => {
+  if (window.confirm("Are you sure you want to delete this recipe?")) {
+    try {
+      const { data: session } = await authClient.getSession();
+      const token = session?.session?.token;
+      const userEmail = session?.user?.email; // ← email নাও
 
-  // Update Form Submission Handler
+      const res = await fetch(`https://recipehub-server-side.vercel.app/api/recipes/${id}?email=${userEmail}`, {
+       
+        method: 'DELETE',
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+
+      const data = await res.json();
+      if (data.success) {
+        alert("Recipe deleted successfully.");
+        setRecipes(recipes.filter(recipe => recipe._id !== id));
+      } else {
+        alert(data.message || "Failed to delete recipe.");
+      }
+    } catch (error) {
+      console.error("Error deleting recipe:", error);
+    }
+  }
+};
+  
  const handleUpdateSubmit = async (e) => {
     e.preventDefault();
     try {
       const { data: session } = await authClient.getSession();
       const token = await getToken();
       
-      // editingRecipe এর সাথে ইমেইলটি যুক্ত করে দিন
+      
       const payload = { 
         ...editingRecipe, 
         email: session?.user?.email 
@@ -92,7 +96,7 @@ const MyRecipes = () => {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
         },
-        body: JSON.stringify(payload) // এখানে ইমেইলসহ ডেটা পাঠানো হচ্ছে
+        body: JSON.stringify(payload)
       });
       
       const data = await res.json();
@@ -107,7 +111,7 @@ const MyRecipes = () => {
       console.error("Error updating recipe:", error);
     }
   };
-  // ... বাকি JSX একই থাকবে
+  
   
   
   if (loading) {
@@ -220,14 +224,20 @@ const MyRecipes = () => {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Category</label>
-                  <input 
-                    type="text" required
-                    className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500"
-                    value={editingRecipe.category || ''}
-                    onChange={(e) => setEditingRecipe({...editingRecipe, category: e.target.value})}
-                  />
-                </div>
+             <label className="block text-sm font-medium text-gray-700 mb-1">Category</label>
+                <select
+                required
+               className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500"
+              value={editingRecipe.category || ''} onChange={(e) => setEditingRecipe({...editingRecipe, category: e.target.value})}>
+               <option value="" disabled hidden>Select a Category</option>
+               <option value="Foods">Foods</option>
+                <option value="Quick & Easy">Quick & Easy</option>
+             <option value="Healthy">Healthy</option>
+              <option value="Dessert">Dessert</option>
+             <option value="Drinks & Juice">Drinks & Juice</option>
+             <option value="Bakery">Bakery</option>
+              <option value="Sea Food">Sea Food</option>
+             <option value="Traditional">Traditional</option></select></div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Cuisine Type</label>
                   <input 
