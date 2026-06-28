@@ -54,18 +54,23 @@ const Navbar = () => {
   }, [pathname]);
 
   const handleLogOut = async () => {
-    try {
-      await authClient.signOut();
-      localStorage.removeItem("user");
-      
-      setIsOpen(false);
-      setIsDrawerOpen(false);
-      toast.success("Successfully logged out! See you again.");
-      router.refresh();
-    } catch (error) {
-      toast.error("Logout failed. Please try again.");
-    }
-  };
+  try {
+    await authClient.signOut();
+    localStorage.removeItem("user");
+    
+    setIsOpen(false);
+    setIsDrawerOpen(false);
+    
+    toast.success("Successfully logged out! See you again.");
+    
+    setTimeout(() => {
+      router.push("/");   
+    }, 2000);
+    
+  } catch (error) {
+    toast.error("Logout failed. Please try again.");
+  }
+};
 
   const handleProtectedNavigation = (e, targetPath) => {
     if (!session) {
@@ -249,7 +254,7 @@ const Navbar = () => {
         </div>
       )}
 
-      <ToastContainer position="top-right" autoClose={2500} theme="light" />
+      <ToastContainer position="top-right" autoClose={2500} theme="light" pauseOnFocusLoss={false}/>
     </>
   );
 };

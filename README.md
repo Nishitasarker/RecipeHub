@@ -2,7 +2,7 @@
 
 RecipeHub is a modern, high-performance web application designed for food enthusiasts to create, share, discover, and manage recipes. Engineered with a decoupled modern full-stack architecture, it features secure enterprise-grade authentication, Stripe-powered premium tiers, multi-layered dashboards, and an ultra-responsive user experience.
 
-🔗 **Live Deployment:** [https://recipe-5uujpf5b6-nishitasarkers-projects.vercel.app](https://recipe-5uujpf5b6-nishitasarkers-projects.vercel.app)  
+🔗 **Live Deployment:** [https://recipe-hub-one-peach.vercel.app](https://recipe-hub-one-peach.vercel.app)  
 💻 **Backend API:** [https://recipehub-server-side.vercel.app](https://recipehub-server-side.vercel.app)
 
 ---
