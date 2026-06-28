@@ -15,7 +15,7 @@ const AddRecipe = () => {
 
   // Form States
   const [recipeName, setRecipeName] = useState('');
-  const [category, setCategory] = useState(''); // ড্রপডাউনের ভ্যালু এখানে স্টোর হবে
+  const [category, setCategory] = useState(''); 
   const [cuisineType, setCuisineType] = useState('');
   const [difficultyLevel, setDifficultyLevel] = useState('Easy');
   const [preparationTime, setPreparationTime] = useState('');
@@ -27,10 +27,10 @@ const AddRecipe = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
 
-  // Recipe limit status
+
   const [limitInfo, setLimitInfo] = useState(null);
 
-  // হিরো সেকশনের সাথে মিল রেখে নির্ধারিত ক্যাটাগরি লিস্ট
+  
   const categoryOptions = [
     'Foods',
     'Quick & Easy',
@@ -42,7 +42,7 @@ const AddRecipe = () => {
     'Traditional'
   ];
 
-  // Session লোড হলেই user-এর current limit status আনা হচ্ছে
+  
   useEffect(() => {
     const fetchLimitStatus = async () => {
       if (!session?.user) return;
@@ -87,20 +87,20 @@ const AddRecipe = () => {
     setIsSubmitting(true);
     setErrorMsg('');
 
-    // চেক লিমিট
-    if (limitInfo && !limitInfo.canAddMore) {
-      const msg = `You have reached your limit of ${limitInfo.limit} recipes.`;
-      setErrorMsg(msg);
-      toast.error(msg); // 🎯 Error Toast
-      setIsSubmitting(false);
-      return;
-    }
+    
+    if (limitInfo && !limitInfo.isPremium && !limitInfo.canAddMore) {
+  const msg = "🔒 You've used all your free recipe slots! Upgrade to Premium to add unlimited recipes.";
+  setErrorMsg(msg);
+  toast.error(msg, { autoClose: 5000 });
+  setIsSubmitting(false);
+  return;
+}
 
-    // ভ্যালিডেশন চেকগুলো
+    
     if (!category || ingredients.length === 0 || !imageFile || !session?.user) {
       const msg = "Please fill all required fields correctly.";
       setErrorMsg(msg);
-      toast.error(msg); // 🎯 Error Toast
+      toast.error(msg);
       setIsSubmitting(false);
       return;
     }
@@ -128,14 +128,25 @@ const AddRecipe = () => {
 
       const dbData = await response.json();
 
+      if (response.status === 403 && dbData.code === "RECIPE_LIMIT_REACHED") {
+      const msg = "🔒 You've used all your free recipe slots! Upgrade to Premium to add unlimited recipes.";
+      setErrorMsg(msg);
+      toast.error(msg, { autoClose: 5000 });
+      setIsSubmitting(false);
+      return;}
+
+if (!response.ok || !dbData.success) {
+  throw new Error(dbData.message || 'Failed to sync recipe data.');
+}
+
       if (!response.ok || !dbData.success) {
         throw new Error(dbData.message || 'Failed to sync recipe data.');
       }
 
-      // 🎯 Success Toast
+      
       toast.success('🎉 Masterpiece successfully published!');
 
-      // Form Reset
+      
       setRecipeName('');
       setCategory('');
       setCuisineType('');
@@ -152,7 +163,7 @@ const AddRecipe = () => {
     } catch (err) {
       console.error("Recipe Submit Error: ", err);
       setErrorMsg(err.message);
-      // 🎯 Error Toast (যদি সার্ভার বা অন্য কোথাও এরর হয়)
+      
       toast.error(err.message || 'Failed to add recipe. Please try again.');
     } finally {
       setIsSubmitting(false);
@@ -172,7 +183,7 @@ const AddRecipe = () => {
           </h1>
         </div>
 
-        {/* Free plan limit reached ব্যানার */}
+       
         <AnimatePresence>
           {limitInfo && !limitInfo.canAddMore && (
             <motion.div
