@@ -10,7 +10,7 @@ const FeatureSection = () => {
 
   useEffect(() => {
     setLoading(true);
-    fetch('http://localhost:5000/api/recipes?isFeatured=true')
+    fetch('https://recipehub-server-side.vercel.app/api/recipes?isFeatured=true')
       .then((res) => {
         if (!res.ok) throw new Error('Failed to fetch recipes');
         return res.json();

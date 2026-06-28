@@ -26,7 +26,7 @@ export async function POST(request) {
          const paidAmount = session.amount_total ? session.amount_total / 100 : null;
 
         // 🔥 অত্যন্ত গুরুত্বপূর্ণ: এক্সপ্রেস ব্যাকএন্ডে (Port 5000) ডাটাবেজে সেভ করার জন্য হিট করা
-        const backendResponse = await fetch(`http://localhost:5000/api/save-purchase`, {
+        const backendResponse = await fetch(`https://recipehub-server-side.vercel.app/api/save-purchase`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({

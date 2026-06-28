@@ -18,7 +18,7 @@ const MyPurchasedRecipes = () => {
   const fetchMyPurchases = async (email) => {
     try {
       setLoading(true);
-      const response = await fetch(`http://localhost:5000/api/my-purchased-recipes?email=${email}`);
+      const response = await fetch(`https://recipehub-server-side.vercel.app/api/my-purchased-recipes?email=${email}`);
       const result = await response.json();
       if (result.success) {
         setPurchasedRecipes(result.data);

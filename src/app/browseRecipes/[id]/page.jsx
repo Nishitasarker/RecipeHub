@@ -39,7 +39,7 @@ function RecipeDetailsContent() {
   useEffect(() => {
     if (!id) return;
     setLoading(true);
-    fetch(`http://localhost:5000/api/recipes/${id}`)
+    fetch(`https://recipehub-server-side.vercel.app/api/recipes/${id}`)
       .then((res) => res.json())
       .then((data) => {
         setRecipe(data);
@@ -56,7 +56,7 @@ function RecipeDetailsContent() {
   useEffect(() => {
     if (!loggedInUser?.email || !id) return;
     
-    fetch(`http://localhost:5000/api/user-actions/${loggedInUser.email}/${id}`)
+    fetch(`https://recipehub-server-side.vercel.app/api/user-actions/${loggedInUser.email}/${id}`)
       .then(res => res.json())
       .then(data => {
         if (data.success) {
@@ -72,7 +72,7 @@ function RecipeDetailsContent() {
   useEffect(() => {
     if (loggedInUser?.email && id) {
       setCheckingAccess(true);
-      fetch(`http://localhost:5000/api/check-purchase?email=${loggedInUser.email}&recipeId=${id}`)
+      fetch(`https://recipehub-server-side.vercel.app/api/check-purchase?email=${loggedInUser.email}&recipeId=${id}`)
         .then((res) => res.json())
         .then((data) => {
           setHasPurchased(data.isPurchased);
@@ -126,7 +126,7 @@ function RecipeDetailsContent() {
   setIsLiked(!wasLiked);
 
   try {
-    const res = await fetch(`http://localhost:5000/api/recipes/${endpoint}/${id}`, {
+    const res = await fetch(`https://recipehub-server-side.vercel.app/api/recipes/${endpoint}/${id}`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ userEmail: loggedInUser.email })
@@ -152,7 +152,7 @@ const handleFavorite = async () => {
   setIsFavorite(newFavoriteState);
 
   try {
-    const res = await fetch(`http://localhost:5000/api/favorites`, {
+    const res = await fetch(`https://recipehub-server-side.vercel.app/api/favorites`, {
       method: isFavorite ? 'DELETE' : 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -196,7 +196,7 @@ const handleFavorite = async () => {
 
   setSubmittingReport(true);
   try {
-    const response = await fetch(`http://localhost:5000/api/reports`, {
+    const response = await fetch(`https://recipehub-server-side.vercel.app/api/reports`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

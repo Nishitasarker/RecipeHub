@@ -21,7 +21,7 @@ const AdminOverview = () => {
     const fetchStats = async () => {
       try {
         setLoading(true);
-        const res = await fetch(`http://localhost:5000/api/admin-stats?email=${loggedInUser.email}`);
+        const res = await fetch(`https://recipehub-server-side.vercel.app/api/admin-stats?email=${loggedInUser.email}`);
         const data = await res.json();
         
         if (data.success) {

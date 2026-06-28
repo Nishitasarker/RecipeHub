@@ -53,7 +53,7 @@ const BrowseRecipes = () => {
     if (selectedCategory !== 'All') params.append('category', selectedCategory);
     if (searchQuery.trim() !== '') params.append('search', searchQuery.trim());
 
-    fetch(`http://localhost:5000/api/recipes?${params.toString()}`)
+    fetch(`https://recipehub-server-side.vercel.app/api/recipes?${params.toString()}`)
       .then((res) => {
         if (!res.ok) throw new Error('Failed to fetch recipes');
         return res.json();

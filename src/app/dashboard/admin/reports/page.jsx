@@ -18,7 +18,7 @@ const RecipeReports = () => {
       setLoading(true);
       const token = session?.session?.token;
 
-      const res = await fetch(`http://localhost:5000/api/admin/reports?email=${email}`, {
+      const res = await fetch(`https://recipehub-server-side.vercel.app/api/admin/reports?email=${email}`, {
         method: "GET",
         headers: {
           "Authorization": `Bearer ${token}`
@@ -59,7 +59,7 @@ const RecipeReports = () => {
         const token = session?.session?.token;
         
         // Option 1 এর জন্য: dismiss হলে আমরা সরাসরি DELETE মেথড বা 'dismiss' অ্যাকশন পাঠাবো যা ব্যাকএন্ডে ডিলিট করবে
-        const res = await fetch(`http://localhost:5000/api/admin/reports/${reportId}`, {
+        const res = await fetch(`https://recipehub-server-side.vercel.app/api/admin/reports/${reportId}`, {
           method: 'PATCH', // আপনার ব্যাকএন্ডে PATCH লজিক থাকলে এটিই রাখুন, ব্যাকএন্ডে শুধু ডিলিট কোড লিখবেন
           headers: { 
             'Content-Type': 'application/json',

@@ -168,10 +168,10 @@ const Navbar = () => {
                         <LayoutDashboard size={22} className="text-orange-500" />
                         My Dashboard
                       </Link>
-                      <Link href="/ProfileSettings" className="flex items-center gap-3 px-4 py-3 text-[17px] font-semibold rounded-2xl transition-all duration-200 text-slate-700 hover:bg-red-50">
+                      {/* <Link href="/dashboard/user/profile" className="flex items-center gap-3 px-4 py-3 text-[17px] font-semibold rounded-2xl transition-all duration-200 text-slate-700 hover:bg-red-50">
                         <CircleUserRound size={22} className="text-orange-500" />
                         Profile Settings
-                      </Link>
+                      </Link> */}
                       <button onClick={handleLogOut} className="w-full flex items-center gap-3 px-4 py-3 text-[17px] font-bold rounded-2xl text-red-500 hover:bg-red-50/70 transition-all duration-200 mt-1">
                         <LogOut size={22} className="text-red-500" />
                         Logout
@@ -221,10 +221,10 @@ const Navbar = () => {
                   <LayoutDashboard size={22} />
                   My Dashboard
                 </Link>
-                <Link href="/ProfileSettings" onClick={(e) => handleProtectedNavigation(e, "/ProfileSettings")} className="flex items-center gap-4 px-5 py-4 text-lg font-bold rounded-2xl border-l-4 transition-all duration-150 text-slate-600 border-transparent hover:bg-red-50/70">
+                {/* <Link href="/ProfileSettings" onClick={(e) => handleProtectedNavigation(e, "/ProfileSettings")} className="flex items-center gap-4 px-5 py-4 text-lg font-bold rounded-2xl border-l-4 transition-all duration-150 text-slate-600 border-transparent hover:bg-red-50/70">
                   <CircleUserRound size={22} />
                   Profile Settings
-                </Link>
+                </Link> */}
               </div>
 
               <div className="pb-6">

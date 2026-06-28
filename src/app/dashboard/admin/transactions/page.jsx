@@ -15,7 +15,7 @@ const Transactions = () => {
       return;
     }
 
-    fetch(`http://localhost:5000/api/payments?email=${loggedInUser.email}`)
+    fetch(`https://recipehub-server-side.vercel.app/api/payments?email=${loggedInUser.email}`)
       .then(res => res.json())
       .then(data => {
         setPayments(data.data || []);

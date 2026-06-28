@@ -19,7 +19,7 @@ const ManageRecipes = () => {
   const fetchRecipes = async (email) => {
     try {
       setLoading(true);
-      const res = await fetch(`http://localhost:5000/api/admin/recipes?email=${email}`);
+      const res = await fetch(`https://recipehub-server-side.vercel.app/api/admin/recipes?email=${email}`);
       const data = await res.json();
       if (data.success) {
         setRecipes(data.data);
@@ -44,7 +44,7 @@ const ManageRecipes = () => {
   // রেসিপি ফিচারড স্ট্যাটাস টগল করার ফাংশন
   const handleToggleFeature = async (recipeId, currentFeaturedStatus) => {
     try {
-      const res = await fetch(`http://localhost:5000/api/admin/recipes/feature/${recipeId}`, {
+      const res = await fetch(`https://recipehub-server-side.vercel.app/api/admin/recipes/feature/${recipeId}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ isFeatured: !currentFeaturedStatus, email: loggedInUser.email })
@@ -68,7 +68,7 @@ const ManageRecipes = () => {
     if (!confirmDelete) return;
 
     try {
-      const res = await fetch(`http://localhost:5000/api/admin/recipes/${recipeId}?email=${loggedInUser.email}`, {
+      const res = await fetch(`https://recipehub-server-side.vercel.app/api/admin/recipes/${recipeId}?email=${loggedInUser.email}`, {
         method: 'DELETE'
       });
       const data = await res.json();
@@ -96,7 +96,7 @@ const ManageRecipes = () => {
   const handleUpdateSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch(`http://localhost:5000/api/admin/recipes/${editingRecipe._id}`, {
+      const res = await fetch(`https://recipehub-server-side.vercel.app/api/admin/recipes/${editingRecipe._id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...editingRecipe, email: loggedInUser.email })

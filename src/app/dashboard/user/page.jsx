@@ -35,7 +35,7 @@ const DashboardOverview = () => {
     try {
       setMetricsLoading(true);
       // cache: 'no-store' ব্রাউজারকে বাধ্য করবে সবসময় একদম লেটেস্ট ডাটা ডাটাবেজ থেকে আনতে
-      const res = await fetch(`http://localhost:5000/api/user-stats/${loggedInUser.email}`, {
+      const res = await fetch(`https://recipehub-server-side.vercel.app/api/user-stats/${loggedInUser.email}`, {
         cache: 'no-store'
       });
       const data = await res.json();

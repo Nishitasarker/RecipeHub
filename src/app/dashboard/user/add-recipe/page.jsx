@@ -50,7 +50,7 @@ const AddRecipe = () => {
         const { data, error } = await authClient.token();
         if (error || !data?.token) return;
 
-        const res = await fetch('http://localhost:5000/api/recipes/my-status', {
+        const res = await fetch('https://recipehub-server-side.vercel.app/api/recipes/my-status', {
           headers: { Authorization: `Bearer ${data.token}` }
         });
         const json = await res.json();

@@ -29,7 +29,7 @@ const MyRecipes = () => {
       }
 
       // ইমেইলটিকে query parameter (?email=...) হিসেবে যুক্ত করুন
-      const res = await fetch(`http://localhost:5000/api/my-recipes?email=${userEmail}`, {
+      const res = await fetch(`https://recipehub-server-side.vercel.app/api/my-recipes?email=${userEmail}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -56,7 +56,7 @@ const MyRecipes = () => {
     if (window.confirm("Are you sure you want to delete this recipe?")) {
       try {
         const token = await getToken();
-        const res = await fetch(`http://localhost:5000/api/recipes/${id}`, {
+        const res = await fetch(`https://recipehub-server-side.vercel.app/api/recipes/${id}`, {
           method: 'DELETE',
           headers: { 'Authorization': `Bearer ${token}` }
         });
@@ -86,7 +86,7 @@ const MyRecipes = () => {
         email: session?.user?.email 
       };
 
-      const res = await fetch(`http://localhost:5000/api/recipes/${editingRecipe._id}`, {
+      const res = await fetch(`https://recipehub-server-side.vercel.app/api/recipes/${editingRecipe._id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

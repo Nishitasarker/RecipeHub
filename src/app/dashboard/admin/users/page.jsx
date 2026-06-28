@@ -15,7 +15,7 @@ const ManageUsers = () => {
   const fetchUsers = async (email) => {
     try {
       setLoading(true);
-      const res = await fetch(`http://localhost:5000/api/admin/users?email=${email}`);
+      const res = await fetch(`https://recipehub-server-side.vercel.app/api/admin/users?email=${email}`);
       const data = await res.json();
       if (data.success) {
         setUsers(data.data);
@@ -46,7 +46,7 @@ const ManageUsers = () => {
 
     if (confirmAction) {
       try {
-        const res = await fetch(`http://localhost:5000/api/admin/users/${action}/${userId}`, {
+        const res = await fetch(`https://recipehub-server-side.vercel.app/api/admin/users/${action}/${userId}`, {
           method: 'PATCH',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ email: loggedInUser.email })

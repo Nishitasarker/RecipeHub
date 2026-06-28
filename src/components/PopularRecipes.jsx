@@ -10,7 +10,7 @@ const PopularRecipes = () => {
 
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/popular-recipes')
+    fetch('https://recipehub-server-side.vercel.app/api/popular-recipes')
       .then((res) => res.json())
       .then((data) => {
         setPopular(data);

@@ -16,7 +16,7 @@ const Favorites = () => {
   const fetchMyFavorites = async (email) => {
     try {
       setLoading(true);
-      const response = await fetch(`http://localhost:5000/api/my-favorites?email=${email}`);
+      const response = await fetch(`https://recipehub-server-side.vercel.app/api/my-favorites?email=${email}`);
       const result = await response.json();
       if (result.success) {
         setFavorites(result.data);
@@ -39,7 +39,7 @@ const Favorites = () => {
   const handleRemove = async (recipeId) => {
     if (!loggedInUser?.email) return;
     try {
-      const response = await fetch('http://localhost:5000/api/favorites', {
+      const response = await fetch('https://recipehub-server-side.vercel.app/api/favorites', {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ recipeId, userEmail: loggedInUser.email })
