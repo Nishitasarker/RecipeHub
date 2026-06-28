@@ -43,24 +43,27 @@ const AddRecipe = () => {
   ];
 
   
-  useEffect(() => {
-    const fetchLimitStatus = async () => {
-      if (!session?.user) return;
-      try {
-        const { data, error } = await authClient.token();
-        if (error || !data?.token) return;
+ useEffect(() => {
+  const fetchLimitStatus = async () => {
+    if (!session?.user) return;
+    try {
+      
+      const { data: sessionData } = await authClient.getSession();
+      const token = sessionData?.session?.token;
+      if (!token) return;
 
-        const res = await fetch('https://recipehub-server-side.vercel.app/api/recipes/my-status', {
-          headers: { Authorization: `Bearer ${data.token}` }
-        });
-        const json = await res.json();
-        if (json.success) setLimitInfo(json);
-      } catch (err) {
-        console.error("Could not fetch recipe limit status:", err);
-      }
-    };
-    fetchLimitStatus();
-  }, [session]);
+      const res = await fetch('https://recipehub-server-side.vercel.app/api/recipes/my-status', {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      const json = await res.json();
+      if (json.success) setLimitInfo(json);
+    } catch (err) {
+      console.error("Could not fetch recipe limit status:", err);
+    }
+  };
+  fetchLimitStatus();
+}, [session]);
+
 
   const handleAddIngredient = (e) => {
     e.preventDefault();
