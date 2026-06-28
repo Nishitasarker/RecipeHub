@@ -5,8 +5,6 @@ import Link from "next/link";
 import { Button } from '@heroui/react';
 import { usePathname, useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
-import { toast, ToastContainer } from "react-toastify"; 
-import "react-toastify/dist/ReactToastify.css";
 import { ChefHat, LayoutDashboard, CircleUserRound, LogOut, Menu, X, Home } from 'lucide-react';
 
 const Navbar = () => {
@@ -254,8 +252,8 @@ const Navbar = () => {
         </div>
       )}
 
-      <ToastContainer position="top-right" autoClose={2500} theme="light" pauseOnFocusLoss={false}/>
-    </>
+      
+          </>
   );
 };
 
