@@ -265,7 +265,7 @@ if (!response.ok || !dbData.success) {
           <hr className="border-neutral-100" />
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-            {/* 🎯 ক্যাটাগরি ড্রপডাউন ফিল্ড */}
+           
             <div className="form-control w-full">
               <label className="label text-neutral-700 font-bold text-sm mb-1.5">Category <span className="text-red-500">*</span></label>
               <div className="relative">

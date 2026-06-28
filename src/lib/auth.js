@@ -28,25 +28,25 @@ export const auth = betterAuth({
       role: {
         type: "string",
         defaultValue: "user",
-        input: false, // 🎯 যুক্ত করা হলো — ইউজার নিজে এটা পরিবর্তন করতে পারবে না
+        input: false, 
       },
       isPremium: {
         type: "boolean",
         defaultValue: false,
-        input: false, // 🎯 যুক্ত করা হলো — শুধু server-side কোড (Stripe confirm route) এটা সেট করতে পারবে
+        input: false, 
       },
       isBlocked: {
         type: "boolean",
         defaultValue: false,
-        input: false, // 🎯 যুক্ত করা হলো
+        input: false, 
       },
     },
   },
 
   session: {
     strategy: "jwt", 
-    expiresIn: 60 * 60 * 24 * 30, // 🟢 সেশনের মেয়াদ ৩০ দিন (১ মাস) করা হলো
-    updateAge: 60 * 60 * 24,    // প্রতিদিন ব্যাকএন্ড সেশনের অ্যাক্টিভিটি চেক/আপডেট করবে
+    expiresIn: 60 * 60 * 24 * 30, 
+    updateAge: 60 * 60 * 24,    
     
     cookieCache: {
       enabled: true, 

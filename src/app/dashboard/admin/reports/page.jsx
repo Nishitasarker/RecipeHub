@@ -12,7 +12,7 @@ const RecipeReports = () => {
   const { data: session } = authClient.useSession();
   const loggedInUser = session?.user;
 
-  // ডাটাবেজ থেকে রিপোর্টের লিস্ট নিয়ে আসা
+  
   const fetchReports = async (email) => {
     try {
       setLoading(true);
@@ -46,7 +46,7 @@ const RecipeReports = () => {
     }
   }, [loggedInUser?.email]);
 
-  // রিপোর্ট ডিসমিস (Dismiss) বা রেসিপি রিমুভ (Remove) করার হ্যান্ডলার
+  
   const handleReportAction = async (reportId, recipeId, actionType) => {
     const confirmMessage = actionType === 'dismiss' 
       ? "Are you sure you want to dismiss and delete this report?" 
@@ -58,9 +58,9 @@ const RecipeReports = () => {
       try {
         const token = session?.session?.token;
         
-        // Option 1 এর জন্য: dismiss হলে আমরা সরাসরি DELETE মেথড বা 'dismiss' অ্যাকশন পাঠাবো যা ব্যাকএন্ডে ডিলিট করবে
+       
         const res = await fetch(`https://recipehub-server-side.vercel.app/api/admin/reports/${reportId}`, {
-          method: 'PATCH', // আপনার ব্যাকএন্ডে PATCH লজিক থাকলে এটিই রাখুন, ব্যাকএন্ডে শুধু ডিলিট কোড লিখবেন
+          method: 'PATCH', 
           headers: { 
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`
@@ -75,7 +75,7 @@ const RecipeReports = () => {
 
         if (data.success) {
           toast.success(data.message);
-          fetchReports(loggedInUser.email); // লিস্ট রিফ্রেশ দিলে ডাটাটি আর টেবিলে থাকবে না
+          fetchReports(loggedInUser.email); 
         } else {
           toast.error(data.message || "Action failed");
         }
@@ -125,7 +125,7 @@ const RecipeReports = () => {
             {reports.map((report) => (
               <tr key={report._id} className="hover:bg-gray-50/70 transition-colors">
                 
-                {/* রেসিপির তথ্য */}
+               
                 <td className="px-6 py-4 whitespace-nowrap">
                   {report.recipeDetails ? (
                     <div className="flex items-center gap-3">
@@ -144,12 +144,12 @@ const RecipeReports = () => {
                   )}
                 </td>
 
-                {/* রিপোর্টকারী */}
+                
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
                   {report.reporterEmail}
                 </td>
 
-                {/* রিপোর্টের কারণ */}
+                
                 <td className="px-6 py-4 whitespace-nowrap">
                   <span className={`px-2.5 py-1 text-xs font-bold rounded-md border ${
                     report.reason === 'Spam' ? 'bg-amber-50 text-amber-700 border-amber-200' :
@@ -160,8 +160,7 @@ const RecipeReports = () => {
                   </span>
                 </td>
 
-                {/* রিপোর্টের স্ট্যাটাস (যেহেতু ডিলিট করে দিচ্ছি, তাই এখানে শুধু pending বা অলরেডি রিমুভড দেখাবে) */}
-                <td className="px-6 py-4 whitespace-nowrap">
+                    <td className="px-6 py-4 whitespace-nowrap">
                   {report.status === 'pending' ? (
                     <span className="inline-flex px-2.5 py-1 text-xs font-bold text-amber-700 bg-amber-50 rounded-md border border-amber-200 animate-pulse">
                       Pending Review
@@ -173,7 +172,7 @@ const RecipeReports = () => {
                   )}
                 </td>
 
-                {/* অ্যাকশন বাটন সমূহ */}
+               
                 <td className="px-6 py-4 whitespace-nowrap text-center">
                   {report.status === 'pending' ? (
                     <div className="flex items-center justify-center gap-2">
@@ -206,7 +205,7 @@ const RecipeReports = () => {
             {reports.length === 0 && (
               <tr>
                 <td colSpan="5" className="text-center py-12 text-gray-400 font-medium">
-                  🎉 Clean slate! No pending recipe reports.
+                   Clean slate! No pending recipe reports.
                 </td>
               </tr>
             )}

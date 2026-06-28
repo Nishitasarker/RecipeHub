@@ -57,7 +57,7 @@ const MyRecipes = () => {
     try {
       const { data: session } = await authClient.getSession();
       const token = session?.session?.token;
-      const userEmail = session?.user?.email; // ← email নাও
+      const userEmail = session?.user?.email; 
 
       const res = await fetch(`https://recipehub-server-side.vercel.app/api/recipes/${id}?email=${userEmail}`, {
        

@@ -13,7 +13,7 @@ export default function DashboardHeader({ userName, userRole, userImage }) {
   const dropdownRef = useRef(null);
   const pathname = usePathname();
 
-  // বাইরে ক্লিক করলে ড্রপডাউন বন্ধ করার লজিক
+  
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -34,7 +34,7 @@ export default function DashboardHeader({ userName, userRole, userImage }) {
           {userName ? userName.split(' ')[0] : 'Anonymous Chef'}
         </span>
 
-        {/* অ্যাভাটার বাটন */}
+       
         <button 
           onClick={() => setIsOpen(!isOpen)} 
           className="w-10 h-10 rounded-full overflow-hidden border border-gray-200 focus:outline-none"
@@ -48,7 +48,7 @@ export default function DashboardHeader({ userName, userRole, userImage }) {
           />
         </button>
 
-        {/* ড্রপডাউন মেনু */}
+        
         {isOpen && (
           <div className="absolute right-0 top-12 w-48 bg-white rounded-xl shadow-lg border border-gray-100 p-2 z-50">
             <Link 

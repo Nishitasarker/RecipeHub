@@ -41,7 +41,7 @@ export default function AboutSection() {
         className="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-12"
       >
         
-        {/* শেফ ইমেজ */}
+        
         <motion.div 
           initial={{ x: -100, opacity: 0 }}
           whileInView={{ x: 0, opacity: 1 }}

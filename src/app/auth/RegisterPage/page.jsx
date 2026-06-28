@@ -56,7 +56,7 @@ const RegisterPage = () => {
         image, 
         email,
         password,
-        // 🎯 অ্যাসাইনমেন্ট রিকোয়ারমেন্ট অনুযায়ী ডিফল্ট রোল এবং প্রিমিয়াম স্ট্যাটাস সাবমিট হচ্ছে
+        
         data: {
           role: "user", 
           isPremium: false,
@@ -65,7 +65,7 @@ const RegisterPage = () => {
         autoSignIn: false, 
       }, {
         onSuccess: async () => { 
-          // ব্যাকএন্ড ডেটাবেজ সিঙ্ক করার জন্য এপিআই কল (প্রয়োজনীয় ফিল্ডসহ)
+          
           await fetch("/api/register-user", {
             method: "POST",
             headers: { "Content-Type": "application/json" },

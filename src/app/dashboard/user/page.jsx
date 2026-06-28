@@ -16,11 +16,11 @@ import { useRouter } from 'next/navigation';
 
 const DashboardOverview = () => {
   const router = useRouter();
-  // ১. সেশন থেকে লগইন করা ইউজারের ডাটা রিড করা
+ 
   const { data: session, isPending: authLoading } = authClient.useSession();
   const loggedInUser = session?.user;
 
-  // ২. ডাইনামিক স্ট্যাটস স্টেট
+  
   const [metrics, setMetrics] = useState({
     totalRecipes: 0,
     totalFavorites: 0,
@@ -29,12 +29,12 @@ const DashboardOverview = () => {
   });
   const [metricsLoading, setMetricsLoading] = useState(true);
 
-  // ৩. ব্যাকএন্ড থেকে রিয়েল-টাইম ডেটা ফেচিং ফাংশন (useCallback দিয়ে অপ্টিমাইজড)
+ 
   const loadDashboardStats = useCallback(async () => {
     if (!loggedInUser?.email) return;
     try {
       setMetricsLoading(true);
-      // cache: 'no-store' ব্রাউজারকে বাধ্য করবে সবসময় একদম লেটেস্ট ডাটা ডাটাবেজ থেকে আনতে
+      
       const res = await fetch(`https://recipehub-server-side.vercel.app/api/user-stats/${loggedInUser.email}`, {
         cache: 'no-store'
       });
@@ -55,20 +55,20 @@ const DashboardOverview = () => {
     }
   }, [loggedInUser?.email]);
 
-  // ৪. রিয়েল-টাইম ডেটা ফেচিং এবং উইন্ডো ফোকাস ইফেক্ট
+  
   useEffect(() => {
     if (!loggedInUser?.email) return;
 
     loadDashboardStats();
 
-    // ইউজার অন্য কোনো ট্যাবে ফেভারিট করে এই ট্যাবে ফিরে আসলে অটো-রিফেচ হবে
+    
     window.addEventListener('focus', loadDashboardStats);
     return () => {
       window.removeEventListener('focus', loadDashboardStats);
     };
   }, [loggedInUser?.email, loadDashboardStats]);
 
-  // ৫. গ্লোবাল লোডিং স্ক্রিন হ্যান্ডলার
+ 
   if (authLoading || metricsLoading) {
     return (
       <div className="flex h-[75vh] flex-col items-center justify-center bg-slate-50">

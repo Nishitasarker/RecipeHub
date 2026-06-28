@@ -33,7 +33,7 @@ const SuccessContent = () => {
         if (response.ok) {
           await refetch();
           setStatusMessage("Welcome to RecipeHub Premium 🎉");
-          // ✅ hard reload — নতুন session নিশ্চিত করতে
+          
           setTimeout(() => {
             window.location.href = "/dashboard/user/profile";
           }, 2000);

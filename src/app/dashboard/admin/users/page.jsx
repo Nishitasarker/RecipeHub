@@ -11,7 +11,7 @@ const ManageUsers = () => {
   const { data: session } = authClient.useSession();
   const loggedInUser = session?.user;
 
-  // ডাটাবেজ থেকে ইউজারলিস্ট নিয়ে আসা
+  
   const fetchUsers = async (email) => {
     try {
       setLoading(true);
@@ -38,7 +38,7 @@ const ManageUsers = () => {
     }
   }, [loggedInUser?.email]);
 
-  // ইউজার ব্লক অথবা আনব্লক করার হ্যান্ডলার
+  
   const handleToggleBlock = async (userId, isBlocked) => {
     const action = isBlocked ? 'unblock' : 'block';
 

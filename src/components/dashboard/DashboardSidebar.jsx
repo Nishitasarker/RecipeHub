@@ -87,7 +87,7 @@ export function DashboardSidebar({ userRole = "user" }) {
           return (
             <button
               key={item.label}
-              // 🔴 অ্যাক্টিভ হলে bg-red-50 এবং টেক্সট red-600 সেট করা হয়েছে
+             
               className={`flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors ${
                 isActive 
                   ? "bg-orange-100 text-orange-600 font-semibold" 
@@ -96,7 +96,7 @@ export function DashboardSidebar({ userRole = "user" }) {
               type="button"
               onClick={() => router.push(item.path)} 
             >
-              {/* 🔴 অ্যাক্টিভ আইকনের কালারও টেক্সটের সাথে মিলিয়ে চেঞ্জ হবে */}
+              
               <item.icon className={`size-5 ${isActive ? "text-red-600" : "text-muted-foreground"}`} />
               {item.label}
             </button>

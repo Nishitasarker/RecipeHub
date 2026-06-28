@@ -11,11 +11,11 @@ import {
 const BrowseRecipes = () => {
   const [recipes, setRecipes] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [searchInput, setSearchInput] = useState('');     // ইনপুট বক্সের আসল ভ্যালু
-  const [searchQuery, setSearchQuery] = useState('');      // ডিবাউন্স হয়ে API তে যাবে
+  const [searchInput, setSearchInput] = useState('');     
+  const [searchQuery, setSearchQuery] = useState('');      
   const [selectedCategory, setSelectedCategory] = useState('All');
 
-  // পেজিনেশন স্টেট
+ 
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [totalCount, setTotalCount] = useState(0);
@@ -26,24 +26,22 @@ const BrowseRecipes = () => {
     'Drinks & Juice', 'Bakery', 'Sea Food', 'Traditional'
   ];
 
-  // 🎯 সার্চ ইনপুটে টাইপ করার ৫০০ms পর আসল searchQuery আপডেট হবে (ডিবাউন্স)
-  // এটা ছাড়া প্রতি অক্ষরে একটা করে API কল হয়ে যাবে
+  
   useEffect(() => {
     const timer = setTimeout(() => {
       setSearchQuery(searchInput);
-      setCurrentPage(1); // নতুন সার্চ হলে page 1 এ ফিরে যাও
+      setCurrentPage(1); 
     }, 500);
     return () => clearTimeout(timer);
   }, [searchInput]);
 
-  // ক্যাটাগরি পরিবর্তন হলে page 1 এ রিসেট
+ 
   const handleCategoryChange = (cat) => {
     setSelectedCategory(cat);
     setCurrentPage(1);
   };
 
-  // 🟢 Server-side pagination অনুযায়ী ডেটা ফেচ — page/category/search পরিবর্তন হলেই নতুন কল হবে
-  useEffect(() => {
+    useEffect(() => {
     setLoading(true);
 
     const params = new URLSearchParams({
@@ -70,7 +68,7 @@ const BrowseRecipes = () => {
       });
   }, [currentPage, selectedCategory, searchQuery]);
 
-  // পেজ নাম্বার বাটনগুলো জেনারেট করার হেল্পার
+  
   const getPageNumbers = () => {
     const pages = [];
     const maxVisible = 5;
@@ -143,7 +141,7 @@ const BrowseRecipes = () => {
           </div>
         </div>
 
-        {/* রেজাল্ট কাউন্ট */}
+        
         <p className="text-sm text-neutral-500 mb-6 font-medium">
           Showing <span className="font-bold text-neutral-700">{recipes.length}</span> of{' '}
           <span className="font-bold text-neutral-700">{totalCount}</span> recipes
@@ -239,7 +237,7 @@ const BrowseRecipes = () => {
           )}
         </AnimatePresence>
 
-        {/* 🎯 PAGINATION CONTROLS */}
+        {/*  PAGINATION CONTROLS */}
         {totalPages > 1 && (
           <div className="flex items-center justify-center gap-2 mt-12">
             <button

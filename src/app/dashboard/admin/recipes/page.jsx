@@ -8,14 +8,14 @@ const ManageRecipes = () => {
   const [recipes, setRecipes] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // ✅ Edit Modal এর জন্য নতুন state গুলো (MyRecipes থেকে নেওয়া)
+  
   const [editingRecipe, setEditingRecipe] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { data: session } = authClient.useSession();
   const loggedInUser = session?.user;
 
-  // ডাটাবেজ থেকে সব রেসিপি নিয়ে আসা
+  
   const fetchRecipes = async (email) => {
     try {
       setLoading(true);
@@ -41,7 +41,7 @@ const ManageRecipes = () => {
     }
   }, [loggedInUser?.email]);
 
-  // রেসিপি ফিচারড স্ট্যাটাস টগল করার ফাংশন
+  
   const handleToggleFeature = async (recipeId, currentFeaturedStatus) => {
     try {
       const res = await fetch(`https://recipehub-server-side.vercel.app/api/admin/recipes/feature/${recipeId}`, {
@@ -62,7 +62,7 @@ const ManageRecipes = () => {
     }
   };
 
-  // রেসিপি ডিলিট করার ফাংশন (Admin delete API ব্যবহার করছে)
+  
   const handleDeleteRecipe = async (recipeId) => {
     const confirmDelete = window.confirm("Are you sure you want to permanently delete this recipe?");
     if (!confirmDelete) return;
@@ -84,15 +84,13 @@ const ManageRecipes = () => {
     }
   };
 
-  // ✅ Edit বাটনে ক্লিক করলে মোডাল ওপেন হবে (আগে এটা alert() ছিল)
+
   const handleEditClick = (recipe) => {
     setEditingRecipe({ ...recipe });
     setIsModalOpen(true);
   };
 
-  // ✅ Update ফর্ম সাবমিট করার ফাংশন — admin আপডেট API কে কল করছে
-  // (কারণ /api/recipes/:id রুটটি owner check করে, admin অন্য কারো রেসিপি
-  // edit করতে পারবে না সেখানে — তাই নিচের server.js আপডেট নোট দেখুন)
+ 
   const handleUpdateSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -218,7 +216,7 @@ const ManageRecipes = () => {
         </table>
       </div>
 
-      {/* ✅ Edit Modal — MyRecipes.jsx এর modal থেকে নেওয়া, একই ডিজাইন/ফর্ম */}
+     
       {isModalOpen && editingRecipe && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex justify-center items-center z-50 p-4">
           <div className="bg-white rounded-3xl w-full max-w-2xl max-h-[90vh] overflow-y-auto shadow-2xl p-6 relative">

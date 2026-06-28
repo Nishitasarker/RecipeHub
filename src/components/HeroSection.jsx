@@ -7,9 +7,9 @@ import Link from 'next/link';
 export default function HeroSection() {
   const [isLoading, setIsLoading] = useState(true);
   const [isCategoryLoading, setIsCategoryLoading] = useState(true);
-  const [isHovered, setIsHovered] = useState(false); // 🎯 হোভার স্টেট ট্র্যাকিং
+  const [isHovered, setIsHovered] = useState(false); 
   
-  // 📸 স্লাইডারের হিরো ইমেজ
+  
   const heroImages = [
     "https://images.unsplash.com/photo-1551183053-bf91a1d81141?q=80&w=1000&auto=format&fit=crop", 
     "https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=1000&auto=format&fit=crop", 
@@ -34,7 +34,7 @@ export default function HeroSection() {
     };
   }, []);
 
-  // 🔄 হিরো ইমেজ স্লাইডার (প্রতি ৩ সেকেন্ডে)
+ 
   useEffect(() => {
     if (isLoading) return; 
     const imageSliderTimer = setInterval(() => {
@@ -43,7 +43,7 @@ export default function HeroSection() {
     return () => clearInterval(imageSliderTimer);
   }, [isLoading, heroImages.length]);
 
-  // 🚀 HERO TEXT ANIMATION VARIANTS (Smooth Bezier)
+  
   const fadeInUp = {
     hidden: { opacity: 0, y: 30 },
     visible: { 
@@ -63,7 +63,7 @@ export default function HeroSection() {
     }
   };
 
-  // কারাউসেলের জন্য লাইটওয়েট ফেড ভ্যারিয়েন্ট
+  
   const imageTransitionVariant = {
     initial: { opacity: 0 },
     animate: { opacity: 1, transition: { duration: 0.5, ease: "linear" } },
@@ -86,7 +86,7 @@ export default function HeroSection() {
     }
   };
 
-  // 🥗 ৮মটি ক্যাটাগরি
+  
   const categories = [
     { id: 1, name: 'Foods', img: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c' }, 
     { id: 2, name: 'Quick & Easy', img: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38' }, 
@@ -102,7 +102,7 @@ export default function HeroSection() {
 
   return (
     <>
-      {/* 🌟 1. FULL-SCREEN INITIAL LOADER */}
+      
       <AnimatePresence>
         {isLoading && (
           <motion.div 
@@ -204,16 +204,16 @@ export default function HeroSection() {
               </button>
             </motion.div>
 
-            {/* অনবরত মসৃণ স্ক্রোলিং ট্র্যাকার */}
+            
             <div 
               className="w-full overflow-hidden relative mt-8 flex whitespace-nowrap"
-              onMouseEnter={() => setIsHovered(true)}   // 🖱️ মাউস ভেতরে আনলে থামবে
-              onMouseLeave={() => setIsHovered(false)}  // 🚪 মাউস সরালে আবার চলবে
+              onMouseEnter={() => setIsHovered(true)}   
+              onMouseLeave={() => setIsHovered(false)}  
             >
               
               <motion.div 
                 className="flex gap-12 pr-12"
-                // 🎯 হোভার অবস্থায় থাকলে পজিশন আটকে থাকবে, না থাকলে অ্যানিমেশন চলবে
+                
                 animate={isHovered ? {} : { x: ["0%", "-33.33%"] }} 
                 transition={{
                   ease: "linear",

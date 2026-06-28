@@ -6,5 +6,4 @@ export const authClient = createAuthClient({
    plugins: [jwtClient()]
 });
 
-// 🎯 আলাদা createAuthClient() কল না করে, একই authClient instance থেকে destructure
 export const { signIn, signUp, signOut, useSession } = authClient;

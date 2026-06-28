@@ -35,7 +35,7 @@ function RecipeDetailsContent() {
   const paymentSuccess = searchParams.get('payment_success');
   const sessionId = searchParams.get('session_id');
 
-  // ১. রেসিপি ডিটেইলস লোড
+  
   useEffect(() => {
     if (!id) return;
     setLoading(true);
@@ -52,7 +52,7 @@ function RecipeDetailsContent() {
       });
   }, [id]);
 
-  // ২. ইউজারের আগের like/favorite স্টেট চেক
+ 
   useEffect(() => {
     if (!loggedInUser?.email || !id) return;
     
@@ -61,14 +61,14 @@ function RecipeDetailsContent() {
       .then(data => {
         if (data.success) {
           setIsFavorite(data.isFavorite);
-          setIsLiked(data.isLiked); // ⬅️ এই লাইনটা নতুন add করুন
+          setIsLiked(data.isLiked); 
            setIsReported(data.isReported);
         }
       })
       .catch(err => console.error("Error checking user actions:", err));
   }, [loggedInUser?.email, id]);
 
-  // ৩. Purchase status চেক
+ 
   useEffect(() => {
     if (loggedInUser?.email && id) {
       setCheckingAccess(true);
@@ -112,7 +112,7 @@ function RecipeDetailsContent() {
     }
   }, [paymentSuccess, sessionId, id, router]);
 
-  // ✅ Like handler - email দিয়ে store
+  
  const handleLike = async () => {
   if (!loggedInUser) {
     toast.error("Please log in first!");
@@ -140,8 +140,7 @@ function RecipeDetailsContent() {
   }
 };
 
-  // ✅ Favorite handler - token দিয়ে auth, email দিয়ে store
-  // handleFavorite ফাংশনটি এভাবে পরিবর্তন করুন:
+  
 const handleFavorite = async () => {
   if (!loggedInUser) {
     toast.error("Please log in first!");
@@ -172,7 +171,6 @@ const handleFavorite = async () => {
 };
 
 
-  // ✅ Report handler
 
   const openReportModal = () => {
   if (!loggedInUser) {

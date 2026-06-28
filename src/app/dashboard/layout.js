@@ -13,17 +13,17 @@ export default async function DashboardLayout({ children }) {
   
   const user = session?.user; 
 
-  // ইউজার যদি লগইন করা না থাকে, তাহলে প্রটেকশনের জন্য লগইন পেজে রিডাইরেক্ট করবে
+  
   if (!user) {
     redirect("/auth/LogIn");
   }
 
-  // ডাটাবেজ থেকে আসা 'user' বা 'admin' রোল এখানে স্টোর হবে
+  
   const currentUserRole = user?.role || "user"; 
 
   return (
     <div className="flex h-screen w-full overflow-hidden bg-background">
-      {/* সাইডবারে ইউজারের রোল পাস করা হলো */}
+     
       <DashboardSidebar userRole={currentUserRole} />
 
       <div className="flex flex-1 flex-col overflow-hidden">

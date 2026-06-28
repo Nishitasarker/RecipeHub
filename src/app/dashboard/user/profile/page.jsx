@@ -4,28 +4,28 @@ import { authClient } from "@/lib/auth-client";
 import { toast } from "react-toastify";
 
 const ProfilePage = () => {
-  // Better Auth সেশন এবং সেশন রি-ফেচ মেথড আনা
+  
   const { data: session, isPending, refetch } = authClient.useSession();
   const loggedInUser = session?.user;
 
-  // ইউজারের প্রিমিয়াম স্ট্যাটাস চেক করা (Better Auth বা MongoDB ডক থেকে)
+  
   const isUserPremium = loggedInUser?.isPremium === true;
 
-  // মেইন ডিসপ্লে স্টেট (যা শুধুমাত্র সেভ বাটনে ক্লিক করলে আপডেট হবে)
+  
   const [profileDisplay, setProfileDisplay] = useState({
     name: "",
     image: "",
   });
 
-  // ইনপুট ফিল্ড স্টেট
+  
   const [formData, setFormData] = useState({
     name: "",
     image: "",
   });
 
-  const [loadingPayment, setLoadingPayment] = useState(false); // 🎯 পেমেন্ট লোডিং স্টেট
+  const [loadingPayment, setLoadingPayment] = useState(false); 
 
-  // সেশন থেকে ডেটা লোড হলে স্টেট ইনিশিয়ালাইজ করা
+  
   useEffect(() => {
     if (loggedInUser) {
       setProfileDisplay({
@@ -36,7 +36,7 @@ const ProfilePage = () => {
     }
   }, [loggedInUser]);
 
-  // পেজ মাউন্ট হলে একবার সেশন রিফ্রেশ করে নেওয়া (নিরাপত্তার জন্য)
+  
   useEffect(() => {
     if (loggedInUser) {
       refetch();
@@ -48,7 +48,7 @@ const ProfilePage = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  // "Save Changes" বাটনের সাবমিট হ্যান্ডলার
+  
   const handleUpdateProfile = async (e) => {
     e.preventDefault();
 
@@ -85,7 +85,7 @@ const ProfilePage = () => {
     }
   };
 
-  // 🎯 স্ট্রাইপ পেমেন্ট হ্যান্ডল করার আপডেটেড ফাংশন
+  
   const handlePremiumPayment = async () => {
     if (!loggedInUser?.email) {
       toast.error("Please log in first to upgrade your profile.");
@@ -101,7 +101,7 @@ const ProfilePage = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        // 🎯 ব্যাকএন্ডের জন্য ইমেইল অবজেক্ট বডিতে পাস করা হচ্ছে
+       
         body: JSON.stringify({ email: loggedInUser.email }), 
       });
 

@@ -86,7 +86,7 @@ const Navbar = () => {
     return null;
   }
 
-  // 💡 ম্যজিক লজিক: ডাটাবেজের 'user' রোলকে 'organizer' ফোল্ডার পাথে ম্যাপ করা হলো
+  
   const userRole = user?.role?.toLowerCase();
   const dashboardPath = userRole === "admin" ? "/dashboard/admin" : "/dashboard/user";
 

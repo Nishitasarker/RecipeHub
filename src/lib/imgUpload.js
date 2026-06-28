@@ -14,7 +14,7 @@ export const imageUpload = async (imageFile) => {
   const data = await res.json();
 
   if (data.success) {
-    return data.data.url; // আপলোড হওয়া ছবির মেইন URL রিটার্ন করবে
+    return data.data.url; 
   } else {
     throw new Error("Image host upload failed. Check ImgBB Key.");
   }
